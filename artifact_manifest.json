@@ -1,0 +1,76 @@
+{
+  "notice": "Metadata only; artifacts not copied. Arrange approved access separately. Hashes identify current local bytes, not clinical validity or generation provenance.",
+  "artifacts": [
+    {
+      "filename": "medgemma_labels_v3.jsonl",
+      "local_source": "/Users/nealprakash/3dCT/medgemma_labels_v3.jsonl",
+      "consumers": [
+        "01",
+        "02",
+        "06"
+      ],
+      "purpose": "Frozen-baseline direction labels",
+      "available_locally": true,
+      "sha256": "a6bd269bfad5b3868abe2628e975cb57f0d4160f91e799ee75c1a8b5f45ac020",
+      "bytes": 8743349
+    },
+    {
+      "filename": "medgemma_labels (2).jsonl",
+      "local_source": "/Users/nealprakash/3dCT/medgemma_labels (2).jsonl",
+      "consumers": [
+        "01",
+        "02"
+      ],
+      "purpose": "Optional historical dynamic text; not direction labels",
+      "available_locally": true,
+      "sha256": "d94bc5918469743d3211cbd00a2509fb399c81ab97ead725c9a589ca348b99b7",
+      "bytes": 11232948
+    },
+    {
+      "filename": "medgemma_labels_v6 (1).jsonl",
+      "local_source": "/Users/nealprakash/3dCT/medgemma_labels_v6 (1).jsonl",
+      "consumers": [
+        "conversion"
+      ],
+      "purpose": "Source-aware labels before standardized text",
+      "available_locally": true,
+      "sha256": "23fc79ccd066aa61b957c1ba6ad5f18a4e3cfff1cc4828674f5ff6db2dd9fa76",
+      "bytes": 38682417
+    },
+    {
+      "filename": "medgemma_labels_v6_synthetic_direction.jsonl",
+      "local_source": "/Users/nealprakash/3dCT/medgemma_labels_v6_synthetic_direction.jsonl",
+      "consumers": [
+        "03"
+      ],
+      "purpose": "Exact last-block training labels and text",
+      "available_locally": true,
+      "sha256": "04ca9952eeb365a3e9bebd7e96f58a82af22f1bf78d06e25eaabd90261457e66",
+      "bytes": 61346801
+    },
+    {
+      "filename": "ctrate_pairs_enriched_v2.csv",
+      "local_source": "/Users/nealprakash/3dCT/data/ctrate/ctrate_pairs_enriched_v2.csv",
+      "consumers": [
+        "05",
+        "07",
+        "08"
+      ],
+      "purpose": "Report-pair input to labelers",
+      "available_locally": true,
+      "sha256": "bbe5d28fe6bf502f3562e93fc54ff0ed28b3ad1a6b604615773f0bb16f72e2e3",
+      "bytes": 20893227
+    },
+    {
+      "filename": "subset_pairs.csv",
+      "local_source": "/Users/nealprakash/3dCT/data/ctrate/subset_pairs.csv",
+      "consumers": [
+        "06"
+      ],
+      "purpose": "Historical MERLIN pair splits",
+      "available_locally": true,
+      "sha256": "f742c2e7877d4d974b2440dabdbbacd37e7cd4d60f6f5c2da00c1c1bc8da0514",
+      "bytes": 39610
+    }
+  ]
+}

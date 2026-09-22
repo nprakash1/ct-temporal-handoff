@@ -1,0 +1,2 @@
+patient,prior_volume,curr_volume,delta_days,prior_date,curr_date,prior_findings,prior_impression,curr_findings,curr_impression,prior_labels,curr_labels,presence_changes,labels_found
+SYNTHETIC_ONLY,train_fake_a_1.nii.gz,train_fake_b_1.nii.gz,30,2020-01-01,2020-01-31,SYNTHETIC EXAMPLE: small pleural effusion.,,SYNTHETIC EXAMPLE: pleural effusion has increased compared with the previous examination.,,"{""Pleural effusion"": 1}","{""Pleural effusion"": 1}","{""Pleural effusion"": ""present_both""}",1

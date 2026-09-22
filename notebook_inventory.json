@@ -1,0 +1,4162 @@
+{
+  "scope": "Local inspection only. No training, Drive verification, or comprehensive privacy audit.",
+  "selected_notebooks": [
+    {
+      "source": "/Users/nealprakash/Downloads/ct_notebook_copies/fixed_supcon.ipynb",
+      "sha256": "7c63026239e3384b943b5e355c20c878aa139bc9024413c66fd3794bfe07a053",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# Proposed pipeline \u2014 Finding-Conditioned CT Temporal Progression (Colab)",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "markdown",
+          "first_line": "## 1. Setup: clone CT-CLIP + our repo, install deps",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "%cd /content",
+          "outputs": 1
+        },
+        {
+          "index": 3,
+          "type": "markdown",
+          "first_line": "## 2. Mount Drive + config paths + ablation knobs",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "from google.colab import drive",
+          "outputs": 1
+        },
+        {
+          "index": 5,
+          "type": "markdown",
+          "first_line": "## 3. Load cached CT-CLIP IMAGE embeddings (512-d per volume)",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "import glob",
+          "outputs": 1
+        },
+        {
+          "index": 7,
+          "type": "markdown",
+          "first_line": "## 4. Frozen CT-CLIP text tower (prototypes + optional finding-name embeddings)",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "from huggingface_hub import login, hf_hub_download",
+          "outputs": 2
+        },
+        {
+          "index": 9,
+          "type": "markdown",
+          "first_line": "## 5. Labels + strict Hub train / Hub validation separation",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "code",
+          "first_line": "def vkey(v): return v.replace('.nii.gz', '').replace('.nii', '')",
+          "outputs": 1
+        },
+        {
+          "index": 11,
+          "type": "markdown",
+          "first_line": "## 6. Text prototypes (CE) + temporal sentences (contrastive)",
+          "outputs": 0
+        },
+        {
+          "index": 12,
+          "type": "code",
+          "first_line": "TEMPLATES = {",
+          "outputs": 2
+        },
+        {
+          "index": 13,
+          "type": "markdown",
+          "first_line": "## 7. Tensorize splits",
+          "outputs": 0
+        },
+        {
+          "index": 14,
+          "type": "code",
+          "first_line": "def tensorize(exs, ttext_emb):",
+          "outputs": 1
+        },
+        {
+          "index": 15,
+          "type": "markdown",
+          "first_line": "## 8. Trainable module \u2014 finding-conditioned Difference Transformer",
+          "outputs": 0
+        },
+        {
+          "index": 16,
+          "type": "code",
+          "first_line": "class DifferenceTransformer(nn.Module):",
+          "outputs": 1
+        },
+        {
+          "index": 17,
+          "type": "markdown",
+          "first_line": "## 9. Contrastive-aware batch sampler",
+          "outputs": 0
+        },
+        {
+          "index": 18,
+          "type": "code",
+          "first_line": "def build_buckets(split):",
+          "outputs": 1
+        },
+        {
+          "index": 19,
+          "type": "markdown",
+          "first_line": "## 10. Train on Hub `train_*` (early-stop on patient-held-out `train_*` tune)",
+          "outputs": 0
+        },
+        {
+          "index": 20,
+          "type": "code",
+          "first_line": "model = DifferenceTransformer(",
+          "outputs": 0
+        },
+        {
+          "index": 21,
+          "type": "markdown",
+          "first_line": "## 11. FINAL TEST \u2014 CT-RATE Hub `valid_*` only",
+          "outputs": 0
+        },
+        {
+          "index": 22,
+          "type": "code",
+          "first_line": "_, macro, y, pred = evaluate('test')",
+          "outputs": 0
+        },
+        {
+          "index": 23,
+          "type": "markdown",
+          "first_line": "## 12. FINAL HUB-VALIDATION TEST \u2014 per disease (finding)",
+          "outputs": 0
+        },
+        {
+          "index": 24,
+          "type": "code",
+          "first_line": "model.eval()",
+          "outputs": 0
+        },
+        {
+          "index": 25,
+          "type": "markdown",
+          "first_line": "## 13. Save checkpoint",
+          "outputs": 0
+        },
+        {
+          "index": 26,
+          "type": "code",
+          "first_line": "ckpt_dir = f'{DRIVE}/ctclip_cache/checkpoints'",
+          "outputs": 0
+        },
+        {
+          "index": 27,
+          "type": "markdown",
+          "first_line": "## Notes / ablations",
+          "outputs": 0
+        },
+        {
+          "index": 28,
+          "type": "markdown",
+          "first_line": "## 14. Diagnostics \u2014 stable templates vs CE prototypes + contrastive mask sanity",
+          "outputs": 0
+        },
+        {
+          "index": 29,
+          "type": "code",
+          "first_line": "# ---- stable template vs PROTO diagnostic ----",
+          "outputs": 0
+        },
+        {
+          "index": 30,
+          "type": "markdown",
+          "first_line": "## 15. Loss ablation sweep \u2014 CE \u00d7 Mag \u00d7 SupCon",
+          "outputs": 0
+        },
+        {
+          "index": 31,
+          "type": "code",
+          "first_line": "# Loss ablation: CE x Mag x SupCon (cross-modal d <-> temporal text)",
+          "outputs": 5
+        },
+        {
+          "index": 32,
+          "type": "code",
+          "first_line": "",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 10,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        2
+      ],
+      "saved_checkpoint_paths_in_outputs": [
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag0_supcon1_seed0_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag1_supcon0_seed1_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag1_supcon1_seed2_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag0_supcon0_seed3_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag0_supcon1_seed4_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag1_supcon0_seed5_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag1_supcon1_seed6_20260817_072340.pt"
+      ],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/3dCT",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/loss_ablation_20260817_072340.csv",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag0_supcon1_seed0_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag1_supcon0_seed1_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag1_supcon1_seed2_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag0_supcon0_seed3_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag0_supcon1_seed4_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag1_supcon0_seed5_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag1_supcon1_seed6_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/proto_bank_real.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/temporal_text_emb.pt"
+      ],
+      "checkpoint_save_code": [
+        {
+          "cell": 12,
+          "line": "torch.save(PROTO, proto_cache)"
+        },
+        {
+          "cell": 12,
+          "line": "torch.save(FINDING_NAME_EMB, FINDING_NAME_PT)"
+        },
+        {
+          "cell": 12,
+          "line": "torch.save(payload, cache_path)"
+        },
+        {
+          "cell": 26,
+          "line": "ckpt_path = f'{ckpt_dir}/proposed_{tag}.pt'"
+        },
+        {
+          "cell": 26,
+          "line": "torch.save({"
+        },
+        {
+          "cell": 31,
+          "line": "torch.save({"
+        }
+      ],
+      "local_helper_imports": [
+        "ctclip_utils"
+      ],
+      "contains_old_repository_url": true,
+      "possible_hf_token_count": 0,
+      "handoff_file": "/Users/nealprakash/3dCT/handoff/notebooks/results/01_frozen_ctclip_ce_bce_crossmodal_supcon_sweep_executed.ipynb"
+    },
+    {
+      "source": "/Users/nealprakash/Downloads/ct_notebook_copies/diff_sentences_ce_eval.ipynb",
+      "sha256": "17e4266ca669bff135444fb738a493203104b5d8f6332086efbf8f25ceb844ba",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# Holdout-eval sentence ablation \u2014 CT Temporal Progression",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "markdown",
+          "first_line": "## 1. Setup: clone CT-CLIP + repo",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "%cd /content",
+          "outputs": 3
+        },
+        {
+          "index": 3,
+          "type": "markdown",
+          "first_line": "",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "from google.colab import drive",
+          "outputs": 1
+        },
+        {
+          "index": 5,
+          "type": "markdown",
+          "first_line": "## 3. Image cache, text tower, labels, Hub splits",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "import glob",
+          "outputs": 11
+        },
+        {
+          "index": 7,
+          "type": "markdown",
+          "first_line": "## 4. Train CE prototypes vs holdout eval sentence bank",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "# ---- TRAIN templates (CE only; must not overlap eval bank strings) ----",
+          "outputs": 1
+        },
+        {
+          "index": 9,
+          "type": "markdown",
+          "first_line": "## 5. Model + holdout eval + sampler",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "code",
+          "first_line": "class DifferenceTransformer(nn.Module):",
+          "outputs": 1
+        },
+        {
+          "index": 11,
+          "type": "markdown",
+          "first_line": "## 6. Loss ablation under holdout-eval paradigm",
+          "outputs": 0
+        },
+        {
+          "index": 12,
+          "type": "code",
+          "first_line": "import time",
+          "outputs": 3
+        },
+        {
+          "index": 13,
+          "type": "code",
+          "first_line": "",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 6,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        2
+      ],
+      "saved_checkpoint_paths_in_outputs": [
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce0_mag0_supcon1_seed0_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce0_mag1_supcon0_seed1_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce0_mag1_supcon1_seed2_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce1_mag0_supcon0_seed3_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce1_mag0_supcon1_seed4_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce1_mag1_supcon0_seed5_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce1_mag1_supcon1_seed6_20260818_042225.pt"
+      ],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/3dCT",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce0_mag0_supcon1_seed0_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce0_mag1_supcon0_seed1_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce0_mag1_supcon1_seed2_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce1_mag0_supcon0_seed3_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce1_mag0_supcon1_seed4_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce1_mag1_supcon0_seed5_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce1_mag1_supcon1_seed6_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_loss_ablation_20260818_042225.csv"
+      ],
+      "checkpoint_save_code": [
+        {
+          "cell": 8,
+          "line": "torch.save(dict(bank=EVAL_BANK, emb=EVAL_BANK_EMB), EVAL_BANK_PT)"
+        },
+        {
+          "cell": 12,
+          "line": "torch.save(dict(model=state, row=row, findings=FINDINGS, classes=CLASSES), path)"
+        }
+      ],
+      "local_helper_imports": [
+        "ctclip_utils"
+      ],
+      "contains_old_repository_url": true,
+      "possible_hf_token_count": 0,
+      "handoff_file": "/Users/nealprakash/3dCT/handoff/notebooks/results/02_frozen_ctclip_heldout_wording_loss_sweep_executed.ipynb"
+    },
+    {
+      "source": "/Users/nealprakash/Downloads/ct_notebook_copies/train_ctclip_lastblock_temporal_colab.ipynb",
+      "sha256": "aa32f9f9463310c79fb0276e76face45ddc2d709c0109d16a260382eb67d1ea0",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# Temporal progression with partially unfrozen CT-CLIP",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "code",
+          "first_line": "!nvidia-smi",
+          "outputs": 1
+        },
+        {
+          "index": 2,
+          "type": "markdown",
+          "first_line": "## 1. Install pinned CT-CLIP source",
+          "outputs": 0
+        },
+        {
+          "index": 3,
+          "type": "code",
+          "first_line": "%cd /content",
+          "outputs": 1
+        },
+        {
+          "index": 4,
+          "type": "markdown",
+          "first_line": "## 2. Mount Drive and configure the experiment",
+          "outputs": 0
+        },
+        {
+          "index": 5,
+          "type": "code",
+          "first_line": "from google.colab import drive",
+          "outputs": 1
+        },
+        {
+          "index": 6,
+          "type": "markdown",
+          "first_line": "## 3. Authenticate and download official CT-CLIP weights",
+          "outputs": 0
+        },
+        {
+          "index": 7,
+          "type": "code",
+          "first_line": "from huggingface_hub import get_token, hf_hub_download, login",
+          "outputs": 4
+        },
+        {
+          "index": 8,
+          "type": "markdown",
+          "first_line": "## 4. Reconstruct the full longitudinal temporal cohort",
+          "outputs": 0
+        },
+        {
+          "index": 9,
+          "type": "code",
+          "first_line": "CLASSES = ['worsened', 'stable', 'improved']",
+          "outputs": 1
+        },
+        {
+          "index": 10,
+          "type": "markdown",
+          "first_line": "## 5. CT-CLIP preprocessing and gated volume download",
+          "outputs": 0
+        },
+        {
+          "index": 11,
+          "type": "code",
+          "first_line": "import nibabel as nib",
+          "outputs": 0
+        },
+        {
+          "index": 12,
+          "type": "code",
+          "first_line": "%cd /content",
+          "outputs": 2
+        },
+        {
+          "index": 13,
+          "type": "markdown",
+          "first_line": "## 6. Build CT-CLIP and load official weights",
+          "outputs": 0
+        },
+        {
+          "index": 14,
+          "type": "code",
+          "first_line": "from transformers import BertModel",
+          "outputs": 8
+        },
+        {
+          "index": 15,
+          "type": "markdown",
+          "first_line": "## 7. Cache the frozen visual prefix for the 6,590 temporal scans",
+          "outputs": 0
+        },
+        {
+          "index": 16,
+          "type": "code",
+          "first_line": "from einops import rearrange",
+          "outputs": 3
+        },
+        {
+          "index": 17,
+          "type": "markdown",
+          "first_line": "## 7b. Verify cached-prefix equivalence on a real CT",
+          "outputs": 0
+        },
+        {
+          "index": 18,
+          "type": "code",
+          "first_line": "@torch.inference_mode()",
+          "outputs": 3
+        },
+        {
+          "index": 19,
+          "type": "markdown",
+          "first_line": "## 8. Build frozen CT-CLIP text targets and class prototypes",
+          "outputs": 0
+        },
+        {
+          "index": 20,
+          "type": "code",
+          "first_line": "TEMPLATES = {",
+          "outputs": 1
+        },
+        {
+          "index": 21,
+          "type": "markdown",
+          "first_line": "## 9. Stage prefix tensors to local disk for training",
+          "outputs": 0
+        },
+        {
+          "index": 22,
+          "type": "code",
+          "first_line": "PREFIX_READ_DIR = PREFIX_DIR",
+          "outputs": 2
+        },
+        {
+          "index": 23,
+          "type": "markdown",
+          "first_line": "## 10. Construct the trainable visual tail and Difference Transformer",
+          "outputs": 0
+        },
+        {
+          "index": 24,
+          "type": "code",
+          "first_line": "# Free modules not needed during training, then move only the tail to GPU.",
+          "outputs": 1
+        },
+        {
+          "index": 25,
+          "type": "markdown",
+          "first_line": "## 11. Pair loading, losses, evaluation, and resumable checkpoints",
+          "outputs": 0
+        },
+        {
+          "index": 26,
+          "type": "code",
+          "first_line": "def load_prefix(volume):",
+          "outputs": 1
+        },
+        {
+          "index": 27,
+          "type": "markdown",
+          "first_line": "## 12. Benchmark 10 pairs before committing to the run",
+          "outputs": 0
+        },
+        {
+          "index": 28,
+          "type": "code",
+          "first_line": "MODEL.train(); MODEL.tail.vq.eval(); optimizer.zero_grad(set_to_none=True)",
+          "outputs": 2
+        },
+        {
+          "index": 29,
+          "type": "markdown",
+          "first_line": "## 13. Train with epoch-level resume and early stopping",
+          "outputs": 0
+        },
+        {
+          "index": 30,
+          "type": "code",
+          "first_line": "start_epoch = 1; best_metric = -1.0; bad_epochs = 0",
+          "outputs": 19
+        },
+        {
+          "index": 31,
+          "type": "markdown",
+          "first_line": "## 14. Final held-out test evaluation",
+          "outputs": 0
+        },
+        {
+          "index": 32,
+          "type": "code",
+          "first_line": "assert BEST_PATH.is_file(), 'No best checkpoint exists.'",
+          "outputs": 3
+        },
+        {
+          "index": 33,
+          "type": "markdown",
+          "first_line": "## Interpretation",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 16,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        1,
+        3,
+        12
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/3dCT",
+        "/content/drive/MyDrive/3dCT/ctclip_lastblock_temporal",
+        "/content/drive/MyDrive/3dCT/ctclip_weights/models/CT-CLIP-Related/CT-CLIP_v2.pt"
+      ],
+      "checkpoint_save_code": [
+        {
+          "cell": 16,
+          "line": "torch.save(payload, temporary); os.replace(temporary, destination)"
+        },
+        {
+          "cell": 26,
+          "line": "BEST_PATH = CHECKPOINT_DIR / 'best.pt'"
+        },
+        {
+          "cell": 26,
+          "line": "LAST_PATH = CHECKPOINT_DIR / 'last.pt'"
+        },
+        {
+          "cell": 26,
+          "line": "def save_checkpoint(path, epoch, best_metric, bad_epochs):"
+        },
+        {
+          "cell": 30,
+          "line": "save_checkpoint(BEST_PATH, epoch, best_metric, bad_epochs)"
+        },
+        {
+          "cell": 30,
+          "line": "save_checkpoint(LAST_PATH, epoch, best_metric, bad_epochs)"
+        }
+      ],
+      "local_helper_imports": [],
+      "contains_old_repository_url": false,
+      "possible_hf_token_count": 0,
+      "handoff_file": "/Users/nealprakash/3dCT/handoff/notebooks/results/03_ctclip_lastblock_ce_bce_cosine_VQ_ISSUE_executed.ipynb"
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/notebooks/ctrate_download_colab.ipynb",
+      "sha256": "ab10fb720dfb5dbb55346b97a0d034032061fb10f916bd19775f734c7db04ff4",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# CT-RATE \u2192 CT-CLIP embeddings \u2192 Drive  (disk-safe, resumable)",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "code",
+          "first_line": "# --- GPU check ---",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "# --- clone CT-CLIP + install (CTViT is torch-picky; if imports fail, restart once) ---",
+          "outputs": 0
+        },
+        {
+          "index": 3,
+          "type": "code",
+          "first_line": "# --- Drive + repo + auth + weights + embedder + define e-",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "# ===== CELL 1: encode ALL VALIDATION volumes -> Drive (embeddings only) =====",
+          "outputs": 0
+        },
+        {
+          "index": 5,
+          "type": "code",
+          "first_line": "# ===== CELL 2: encode ALL TRAINING volumes -> Drive (embeddings only) =====",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "markdown",
+          "first_line": "## Notes",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 0,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        1,
+        2,
+        3
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/3dCT/ctclip_cache",
+        "/content/drive/MyDrive/3dCT/ctclip_weights"
+      ],
+      "checkpoint_save_code": [
+        {
+          "cell": 3,
+          "line": "torch.save(e.half().squeeze(0).clone(), out_pt)  # AUTO-SAVE to Drive now"
+        }
+      ],
+      "local_helper_imports": [
+        "ctclip_utils"
+      ],
+      "contains_old_repository_url": true,
+      "possible_hf_token_count": 0,
+      "handoff_file": "/Users/nealprakash/3dCT/handoff/notebooks/support/04_extract_frozen_ctclip_features_all_splits.ipynb"
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/notebooks/label_per_finding_temporal_colab.ipynb",
+      "sha256": "1116a0235829a57fe96ad70c6791e4b9674282c4b1fe9f1a672792f263d6eb98",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# CT-RATE Temporal Labeling v7 \u2014 CURRENT-REPORT SEMANTICS, SOURCE-AWARE",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "code",
+          "first_line": "# 1. Deps",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "# 2. GPU sanity \u2014 expect an A100 with ~80 GB",
+          "outputs": 0
+        },
+        {
+          "index": 3,
+          "type": "code",
+          "first_line": "# 3. Hugging Face login (gated MedGemma weights)",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "# 4. Upload ctrate_pairs_enriched_v2.csv",
+          "outputs": 0
+        },
+        {
+          "index": 5,
+          "type": "code",
+          "first_line": "# 5. v7 CURRENT-REPORT semantic extraction + source-aware merge (NO semantic regex)",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "# 6. Load MedGemma-27B in bf16 straight onto the GPU",
+          "outputs": 0
+        },
+        {
+          "index": 7,
+          "type": "code",
+          "first_line": "# 7. ONE-PASS labeling \u2014 Drive-resumable; reports are NEVER truncated",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "# 8. v7 QC \u2014 source/class/domain/text grounding (NO semantic regex)",
+          "outputs": 0
+        },
+        {
+          "index": 9,
+          "type": "code",
+          "first_line": "# 9. Output is already on Drive; download a backup",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "markdown",
+          "first_line": "## v7 pilot QC checklist",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 0,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        1
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/ct_temporal"
+      ],
+      "checkpoint_save_code": [],
+      "local_helper_imports": [],
+      "contains_old_repository_url": false,
+      "possible_hf_token_count": 0,
+      "handoff_file": "/Users/nealprakash/3dCT/handoff/notebooks/support/05_medgemma_current_report_only_labeling.ipynb"
+    },
+    {
+      "source": "/Users/nealprakash/Downloads/ct_notebook_copies/train_v1_ctrate (1).ipynb",
+      "sha256": "e8d8fe2be21e54572e2052c586e291d9f70e605f4287ea5249f67bc69339eccf",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# v1 Global Temporal Transformer \u2014 train on CT-RATE cached features",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "code",
+          "first_line": "# 1. Setup + auth",
+          "outputs": 1
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "# 2. Pull cached features (pooled) + prompt bank from GCS",
+          "outputs": 1
+        },
+        {
+          "index": 3,
+          "type": "code",
+          "first_line": "# 3. Upload labels + splits, then build (pair, finding) examples per split",
+          "outputs": 3
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "# 4. Tensorize each split (VP, VC, PROTO(3x512), Y, and finding name for per-disease F1)",
+          "outputs": 1
+        },
+        {
+          "index": 5,
+          "type": "code",
+          "first_line": "# 5. The trainable temporal module (the ONLY trained component)",
+          "outputs": 1
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "# 6. Train (early-stop on val macro-F1)",
+          "outputs": 1
+        },
+        {
+          "index": 7,
+          "type": "code",
+          "first_line": "# 7. TEST metrics \u2014 per class",
+          "outputs": 1
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "# 8. TEST metrics \u2014 per disease (finding)",
+          "outputs": 1
+        },
+        {
+          "index": 9,
+          "type": "code",
+          "first_line": "# 9. NAIVE zero-shot baseline \u2014 d = v_current \u2212 v_prior, cosine vs finding prompts.",
+          "outputs": 1
+        },
+        {
+          "index": 10,
+          "type": "code",
+          "first_line": "# Cosine separability of the text prompts (worsened / stable / improved)",
+          "outputs": 1
+        },
+        {
+          "index": 11,
+          "type": "markdown",
+          "first_line": "## Notes",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 10,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        1,
+        2
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [],
+      "checkpoint_save_code": [],
+      "local_helper_imports": [],
+      "contains_old_repository_url": false,
+      "possible_hf_token_count": 0,
+      "handoff_file": "/Users/nealprakash/3dCT/handoff/notebooks/historical/06_merlin_temporal_adapter_and_zeroshot_executed.ipynb"
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/notebooks/medgemma_label_colab.ipynb",
+      "sha256": "1911eed1847c1362f2f1e4d695f16cd1d2f4cb039780635b8dc622700d692dea",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# CT-RATE Temporal Labeling v3 \u2014 TEXT PRECEDENCE",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "code",
+          "first_line": "# 1. Deps",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "# 2. GPU sanity \u2014 expect an A100 with ~80 GB",
+          "outputs": 0
+        },
+        {
+          "index": 3,
+          "type": "code",
+          "first_line": "# 3. Hugging Face login (gated MedGemma weights)",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "# 4. Upload ctrate_pairs_enriched_v2.csv",
+          "outputs": 0
+        },
+        {
+          "index": 5,
+          "type": "code",
+          "first_line": "# 5. v3 prompt: ask about ALL 18 findings + merge with TEXT PRECEDENCE",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "# 6. Load MedGemma-27B in bf16 straight onto the GPU",
+          "outputs": 0
+        },
+        {
+          "index": 7,
+          "type": "code",
+          "first_line": "# 7. Labeling \u2014 writes STRAIGHT TO DRIVE, resumable",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "# 8. QC \u2014 did text precedence actually change things?",
+          "outputs": 0
+        },
+        {
+          "index": 9,
+          "type": "code",
+          "first_line": "# 9. Already on Drive; also pull a local backup",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "markdown",
+          "first_line": "## What to check in the pilot QC",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 0,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        1
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/ct_temporal"
+      ],
+      "checkpoint_save_code": [],
+      "local_helper_imports": [],
+      "contains_old_repository_url": false,
+      "possible_hf_token_count": 0,
+      "handoff_file": "/Users/nealprakash/3dCT/handoff/notebooks/label_creation/07_create_paired_report_labels_for_frozen_baselines.ipynb"
+    },
+    {
+      "source": "git:2e683da873d766216c8eefbc0f903a953383fc7f:notebooks/label_per_finding_temporal_colab.ipynb",
+      "sha256": "e6f9f05490b18e40ee32f919328fec4807590b7dff9439ec7fd0447be0ecf135",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# CT-RATE Temporal Labeling v6 \u2014 ONE-PASS, SOURCE-AWARE",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "code",
+          "first_line": "# 1. Deps",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "# 2. GPU sanity \u2014 expect an A100 with ~80 GB",
+          "outputs": 0
+        },
+        {
+          "index": 3,
+          "type": "code",
+          "first_line": "# 3. Hugging Face login (gated MedGemma weights)",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "# 4. Upload ctrate_pairs_enriched_v2.csv",
+          "outputs": 0
+        },
+        {
+          "index": 5,
+          "type": "code",
+          "first_line": "# 5. v6 ONE-PASS prompt + source-aware merge (NO semantic regex)",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "# 6. Load MedGemma-27B in bf16 straight onto the GPU",
+          "outputs": 0
+        },
+        {
+          "index": 7,
+          "type": "code",
+          "first_line": "# 7. ONE-PASS labeling \u2014 Drive-resumable; reports are NEVER truncated",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "# 8. v6 QC \u2014 source/class/domain/text grounding (NO semantic regex)",
+          "outputs": 0
+        },
+        {
+          "index": 9,
+          "type": "code",
+          "first_line": "# 9. Output is already on Drive; download a backup",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "markdown",
+          "first_line": "## v6 pilot QC checklist",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 0,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        1
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/ct_temporal"
+      ],
+      "checkpoint_save_code": [],
+      "local_helper_imports": [],
+      "contains_old_repository_url": false,
+      "possible_hf_token_count": 0,
+      "source_commit": "2e683da873d766216c8eefbc0f903a953383fc7f",
+      "handoff_file": "/Users/nealprakash/3dCT/handoff/notebooks/label_creation/08_create_source_aware_paired_report_labels.ipynb"
+    }
+  ],
+  "reference_code": [
+    {
+      "source": "/Users/nealprakash/3dCT/scripts/ctclip_utils.py",
+      "handoff_file": "/Users/nealprakash/3dCT/handoff/reference_code/ctclip_utils.py",
+      "sha256": "199492ae766f4002560bca6ba9cd1276cb812905e6b8daace18dccc894b1c2ba"
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/scripts/21_synthesize_v6_direction_text.py",
+      "handoff_file": "/Users/nealprakash/3dCT/handoff/reference_code/21_synthesize_v6_direction_text.py",
+      "sha256": "3797d1d800e5360de6ac328928d9e8e94044e26499059bc7588b05ca8234c3a5"
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/scripts/_validate_v7_notebook.py",
+      "handoff_file": "/Users/nealprakash/3dCT/handoff/reference_code/_validate_v7_notebook.py",
+      "sha256": "19667418bb1d87f33432fb2dde4cf1cbc8c105ad2990aa526a44d4d04e8c181f"
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/scripts/12_ctrate_enrich.py",
+      "handoff_file": "/Users/nealprakash/3dCT/handoff/reference_code/12_ctrate_enrich.py",
+      "sha256": "6d055b1f417a343a9543cf6bddb5a6dd324db8a52f0531ac6a6b564236a4476b"
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/scripts/16_join_abnormality_labels.py",
+      "handoff_file": "/Users/nealprakash/3dCT/handoff/reference_code/16_join_abnormality_labels.py",
+      "sha256": "d7486ba302dbc87aea24eec4106ed6ba9378b717a38435460c4cb3a857245abf"
+    }
+  ],
+  "all_inspected_notebooks": [
+    {
+      "source": "/Users/nealprakash/Downloads/ct_notebook_copies/diff_sentences_ce_eval.ipynb",
+      "sha256": "17e4266ca669bff135444fb738a493203104b5d8f6332086efbf8f25ceb844ba",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# Holdout-eval sentence ablation \u2014 CT Temporal Progression",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "markdown",
+          "first_line": "## 1. Setup: clone CT-CLIP + repo",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "%cd /content",
+          "outputs": 3
+        },
+        {
+          "index": 3,
+          "type": "markdown",
+          "first_line": "",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "from google.colab import drive",
+          "outputs": 1
+        },
+        {
+          "index": 5,
+          "type": "markdown",
+          "first_line": "## 3. Image cache, text tower, labels, Hub splits",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "import glob",
+          "outputs": 11
+        },
+        {
+          "index": 7,
+          "type": "markdown",
+          "first_line": "## 4. Train CE prototypes vs holdout eval sentence bank",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "# ---- TRAIN templates (CE only; must not overlap eval bank strings) ----",
+          "outputs": 1
+        },
+        {
+          "index": 9,
+          "type": "markdown",
+          "first_line": "## 5. Model + holdout eval + sampler",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "code",
+          "first_line": "class DifferenceTransformer(nn.Module):",
+          "outputs": 1
+        },
+        {
+          "index": 11,
+          "type": "markdown",
+          "first_line": "## 6. Loss ablation under holdout-eval paradigm",
+          "outputs": 0
+        },
+        {
+          "index": 12,
+          "type": "code",
+          "first_line": "import time",
+          "outputs": 3
+        },
+        {
+          "index": 13,
+          "type": "code",
+          "first_line": "",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 6,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        2
+      ],
+      "saved_checkpoint_paths_in_outputs": [
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce0_mag0_supcon1_seed0_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce0_mag1_supcon0_seed1_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce0_mag1_supcon1_seed2_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce1_mag0_supcon0_seed3_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce1_mag0_supcon1_seed4_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce1_mag1_supcon0_seed5_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce1_mag1_supcon1_seed6_20260818_042225.pt"
+      ],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/3dCT",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce0_mag0_supcon1_seed0_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce0_mag1_supcon0_seed1_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce0_mag1_supcon1_seed2_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce1_mag0_supcon0_seed3_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce1_mag0_supcon1_seed4_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce1_mag1_supcon0_seed5_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_ablation_ce1_mag1_supcon1_seed6_20260818_042225.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations_holdout_eval/holdout_loss_ablation_20260818_042225.csv"
+      ],
+      "checkpoint_save_code": [
+        {
+          "cell": 8,
+          "line": "torch.save(dict(bank=EVAL_BANK, emb=EVAL_BANK_EMB), EVAL_BANK_PT)"
+        },
+        {
+          "cell": 12,
+          "line": "torch.save(dict(model=state, row=row, findings=FINDINGS, classes=CLASSES), path)"
+        }
+      ],
+      "local_helper_imports": [
+        "ctclip_utils"
+      ],
+      "contains_old_repository_url": true,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/Downloads/ct_notebook_copies/fixed_supcon.ipynb",
+      "sha256": "7c63026239e3384b943b5e355c20c878aa139bc9024413c66fd3794bfe07a053",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# Proposed pipeline \u2014 Finding-Conditioned CT Temporal Progression (Colab)",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "markdown",
+          "first_line": "## 1. Setup: clone CT-CLIP + our repo, install deps",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "%cd /content",
+          "outputs": 1
+        },
+        {
+          "index": 3,
+          "type": "markdown",
+          "first_line": "## 2. Mount Drive + config paths + ablation knobs",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "from google.colab import drive",
+          "outputs": 1
+        },
+        {
+          "index": 5,
+          "type": "markdown",
+          "first_line": "## 3. Load cached CT-CLIP IMAGE embeddings (512-d per volume)",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "import glob",
+          "outputs": 1
+        },
+        {
+          "index": 7,
+          "type": "markdown",
+          "first_line": "## 4. Frozen CT-CLIP text tower (prototypes + optional finding-name embeddings)",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "from huggingface_hub import login, hf_hub_download",
+          "outputs": 2
+        },
+        {
+          "index": 9,
+          "type": "markdown",
+          "first_line": "## 5. Labels + strict Hub train / Hub validation separation",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "code",
+          "first_line": "def vkey(v): return v.replace('.nii.gz', '').replace('.nii', '')",
+          "outputs": 1
+        },
+        {
+          "index": 11,
+          "type": "markdown",
+          "first_line": "## 6. Text prototypes (CE) + temporal sentences (contrastive)",
+          "outputs": 0
+        },
+        {
+          "index": 12,
+          "type": "code",
+          "first_line": "TEMPLATES = {",
+          "outputs": 2
+        },
+        {
+          "index": 13,
+          "type": "markdown",
+          "first_line": "## 7. Tensorize splits",
+          "outputs": 0
+        },
+        {
+          "index": 14,
+          "type": "code",
+          "first_line": "def tensorize(exs, ttext_emb):",
+          "outputs": 1
+        },
+        {
+          "index": 15,
+          "type": "markdown",
+          "first_line": "## 8. Trainable module \u2014 finding-conditioned Difference Transformer",
+          "outputs": 0
+        },
+        {
+          "index": 16,
+          "type": "code",
+          "first_line": "class DifferenceTransformer(nn.Module):",
+          "outputs": 1
+        },
+        {
+          "index": 17,
+          "type": "markdown",
+          "first_line": "## 9. Contrastive-aware batch sampler",
+          "outputs": 0
+        },
+        {
+          "index": 18,
+          "type": "code",
+          "first_line": "def build_buckets(split):",
+          "outputs": 1
+        },
+        {
+          "index": 19,
+          "type": "markdown",
+          "first_line": "## 10. Train on Hub `train_*` (early-stop on patient-held-out `train_*` tune)",
+          "outputs": 0
+        },
+        {
+          "index": 20,
+          "type": "code",
+          "first_line": "model = DifferenceTransformer(",
+          "outputs": 0
+        },
+        {
+          "index": 21,
+          "type": "markdown",
+          "first_line": "## 11. FINAL TEST \u2014 CT-RATE Hub `valid_*` only",
+          "outputs": 0
+        },
+        {
+          "index": 22,
+          "type": "code",
+          "first_line": "_, macro, y, pred = evaluate('test')",
+          "outputs": 0
+        },
+        {
+          "index": 23,
+          "type": "markdown",
+          "first_line": "## 12. FINAL HUB-VALIDATION TEST \u2014 per disease (finding)",
+          "outputs": 0
+        },
+        {
+          "index": 24,
+          "type": "code",
+          "first_line": "model.eval()",
+          "outputs": 0
+        },
+        {
+          "index": 25,
+          "type": "markdown",
+          "first_line": "## 13. Save checkpoint",
+          "outputs": 0
+        },
+        {
+          "index": 26,
+          "type": "code",
+          "first_line": "ckpt_dir = f'{DRIVE}/ctclip_cache/checkpoints'",
+          "outputs": 0
+        },
+        {
+          "index": 27,
+          "type": "markdown",
+          "first_line": "## Notes / ablations",
+          "outputs": 0
+        },
+        {
+          "index": 28,
+          "type": "markdown",
+          "first_line": "## 14. Diagnostics \u2014 stable templates vs CE prototypes + contrastive mask sanity",
+          "outputs": 0
+        },
+        {
+          "index": 29,
+          "type": "code",
+          "first_line": "# ---- stable template vs PROTO diagnostic ----",
+          "outputs": 0
+        },
+        {
+          "index": 30,
+          "type": "markdown",
+          "first_line": "## 15. Loss ablation sweep \u2014 CE \u00d7 Mag \u00d7 SupCon",
+          "outputs": 0
+        },
+        {
+          "index": 31,
+          "type": "code",
+          "first_line": "# Loss ablation: CE x Mag x SupCon (cross-modal d <-> temporal text)",
+          "outputs": 5
+        },
+        {
+          "index": 32,
+          "type": "code",
+          "first_line": "",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 10,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        2
+      ],
+      "saved_checkpoint_paths_in_outputs": [
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag0_supcon1_seed0_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag1_supcon0_seed1_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag1_supcon1_seed2_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag0_supcon0_seed3_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag0_supcon1_seed4_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag1_supcon0_seed5_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag1_supcon1_seed6_20260817_072340.pt"
+      ],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/3dCT",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/loss_ablation_20260817_072340.csv",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag0_supcon1_seed0_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag1_supcon0_seed1_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag1_supcon1_seed2_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag0_supcon0_seed3_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag0_supcon1_seed4_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag1_supcon0_seed5_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag1_supcon1_seed6_20260817_072340.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/proto_bank_real.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/temporal_text_emb.pt"
+      ],
+      "checkpoint_save_code": [
+        {
+          "cell": 12,
+          "line": "torch.save(PROTO, proto_cache)"
+        },
+        {
+          "cell": 12,
+          "line": "torch.save(FINDING_NAME_EMB, FINDING_NAME_PT)"
+        },
+        {
+          "cell": 12,
+          "line": "torch.save(payload, cache_path)"
+        },
+        {
+          "cell": 26,
+          "line": "ckpt_path = f'{ckpt_dir}/proposed_{tag}.pt'"
+        },
+        {
+          "cell": 26,
+          "line": "torch.save({"
+        },
+        {
+          "cell": 31,
+          "line": "torch.save({"
+        }
+      ],
+      "local_helper_imports": [
+        "ctclip_utils"
+      ],
+      "contains_old_repository_url": true,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/Downloads/ct_notebook_copies/medgemma_label_colab.ipynb",
+      "sha256": "1ec514e98eee13e4814e998c5a24490dfc4071a7b591317415576411f80c97b9",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# CT-RATE Temporal Labeling v3 \u2014 TEXT PRECEDENCE",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "code",
+          "first_line": "# 1. Deps",
+          "outputs": 1
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "# 2. GPU sanity \u2014 expect an A100 with ~80 GB",
+          "outputs": 1
+        },
+        {
+          "index": 3,
+          "type": "code",
+          "first_line": "# 3. Hugging Face login (gated MedGemma weights)",
+          "outputs": 3
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "# 4. Upload ctrate_pairs_enriched_v2.csv",
+          "outputs": 2
+        },
+        {
+          "index": 5,
+          "type": "code",
+          "first_line": "# 5. v3 prompt: ask about ALL 18 findings + merge with TEXT PRECEDENCE",
+          "outputs": 1
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "# 6. Load MedGemma-27B in bf16 straight onto the GPU",
+          "outputs": 16
+        },
+        {
+          "index": 7,
+          "type": "code",
+          "first_line": "# 7. Labeling \u2014 writes STRAIGHT TO DRIVE, resumable",
+          "outputs": 1
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "# 8. QC \u2014 did text precedence actually change things?",
+          "outputs": 1
+        },
+        {
+          "index": 9,
+          "type": "code",
+          "first_line": "# 9. Already on Drive; also pull a local backup",
+          "outputs": 3
+        },
+        {
+          "index": 10,
+          "type": "markdown",
+          "first_line": "## What to check in the pilot QC",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 9,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        1
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/ct_temporal",
+        "/content/drive/MyDrive/ct_temporal/medgemma_labels_v3.jsonl"
+      ],
+      "checkpoint_save_code": [],
+      "local_helper_imports": [],
+      "contains_old_repository_url": false,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/Downloads/ct_notebook_copies/train_ctclip_lastblock_temporal_colab.ipynb",
+      "sha256": "aa32f9f9463310c79fb0276e76face45ddc2d709c0109d16a260382eb67d1ea0",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# Temporal progression with partially unfrozen CT-CLIP",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "code",
+          "first_line": "!nvidia-smi",
+          "outputs": 1
+        },
+        {
+          "index": 2,
+          "type": "markdown",
+          "first_line": "## 1. Install pinned CT-CLIP source",
+          "outputs": 0
+        },
+        {
+          "index": 3,
+          "type": "code",
+          "first_line": "%cd /content",
+          "outputs": 1
+        },
+        {
+          "index": 4,
+          "type": "markdown",
+          "first_line": "## 2. Mount Drive and configure the experiment",
+          "outputs": 0
+        },
+        {
+          "index": 5,
+          "type": "code",
+          "first_line": "from google.colab import drive",
+          "outputs": 1
+        },
+        {
+          "index": 6,
+          "type": "markdown",
+          "first_line": "## 3. Authenticate and download official CT-CLIP weights",
+          "outputs": 0
+        },
+        {
+          "index": 7,
+          "type": "code",
+          "first_line": "from huggingface_hub import get_token, hf_hub_download, login",
+          "outputs": 4
+        },
+        {
+          "index": 8,
+          "type": "markdown",
+          "first_line": "## 4. Reconstruct the full longitudinal temporal cohort",
+          "outputs": 0
+        },
+        {
+          "index": 9,
+          "type": "code",
+          "first_line": "CLASSES = ['worsened', 'stable', 'improved']",
+          "outputs": 1
+        },
+        {
+          "index": 10,
+          "type": "markdown",
+          "first_line": "## 5. CT-CLIP preprocessing and gated volume download",
+          "outputs": 0
+        },
+        {
+          "index": 11,
+          "type": "code",
+          "first_line": "import nibabel as nib",
+          "outputs": 0
+        },
+        {
+          "index": 12,
+          "type": "code",
+          "first_line": "%cd /content",
+          "outputs": 2
+        },
+        {
+          "index": 13,
+          "type": "markdown",
+          "first_line": "## 6. Build CT-CLIP and load official weights",
+          "outputs": 0
+        },
+        {
+          "index": 14,
+          "type": "code",
+          "first_line": "from transformers import BertModel",
+          "outputs": 8
+        },
+        {
+          "index": 15,
+          "type": "markdown",
+          "first_line": "## 7. Cache the frozen visual prefix for the 6,590 temporal scans",
+          "outputs": 0
+        },
+        {
+          "index": 16,
+          "type": "code",
+          "first_line": "from einops import rearrange",
+          "outputs": 3
+        },
+        {
+          "index": 17,
+          "type": "markdown",
+          "first_line": "## 7b. Verify cached-prefix equivalence on a real CT",
+          "outputs": 0
+        },
+        {
+          "index": 18,
+          "type": "code",
+          "first_line": "@torch.inference_mode()",
+          "outputs": 3
+        },
+        {
+          "index": 19,
+          "type": "markdown",
+          "first_line": "## 8. Build frozen CT-CLIP text targets and class prototypes",
+          "outputs": 0
+        },
+        {
+          "index": 20,
+          "type": "code",
+          "first_line": "TEMPLATES = {",
+          "outputs": 1
+        },
+        {
+          "index": 21,
+          "type": "markdown",
+          "first_line": "## 9. Stage prefix tensors to local disk for training",
+          "outputs": 0
+        },
+        {
+          "index": 22,
+          "type": "code",
+          "first_line": "PREFIX_READ_DIR = PREFIX_DIR",
+          "outputs": 2
+        },
+        {
+          "index": 23,
+          "type": "markdown",
+          "first_line": "## 10. Construct the trainable visual tail and Difference Transformer",
+          "outputs": 0
+        },
+        {
+          "index": 24,
+          "type": "code",
+          "first_line": "# Free modules not needed during training, then move only the tail to GPU.",
+          "outputs": 1
+        },
+        {
+          "index": 25,
+          "type": "markdown",
+          "first_line": "## 11. Pair loading, losses, evaluation, and resumable checkpoints",
+          "outputs": 0
+        },
+        {
+          "index": 26,
+          "type": "code",
+          "first_line": "def load_prefix(volume):",
+          "outputs": 1
+        },
+        {
+          "index": 27,
+          "type": "markdown",
+          "first_line": "## 12. Benchmark 10 pairs before committing to the run",
+          "outputs": 0
+        },
+        {
+          "index": 28,
+          "type": "code",
+          "first_line": "MODEL.train(); MODEL.tail.vq.eval(); optimizer.zero_grad(set_to_none=True)",
+          "outputs": 2
+        },
+        {
+          "index": 29,
+          "type": "markdown",
+          "first_line": "## 13. Train with epoch-level resume and early stopping",
+          "outputs": 0
+        },
+        {
+          "index": 30,
+          "type": "code",
+          "first_line": "start_epoch = 1; best_metric = -1.0; bad_epochs = 0",
+          "outputs": 19
+        },
+        {
+          "index": 31,
+          "type": "markdown",
+          "first_line": "## 14. Final held-out test evaluation",
+          "outputs": 0
+        },
+        {
+          "index": 32,
+          "type": "code",
+          "first_line": "assert BEST_PATH.is_file(), 'No best checkpoint exists.'",
+          "outputs": 3
+        },
+        {
+          "index": 33,
+          "type": "markdown",
+          "first_line": "## Interpretation",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 16,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        1,
+        3,
+        12
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/3dCT",
+        "/content/drive/MyDrive/3dCT/ctclip_lastblock_temporal",
+        "/content/drive/MyDrive/3dCT/ctclip_weights/models/CT-CLIP-Related/CT-CLIP_v2.pt"
+      ],
+      "checkpoint_save_code": [
+        {
+          "cell": 16,
+          "line": "torch.save(payload, temporary); os.replace(temporary, destination)"
+        },
+        {
+          "cell": 26,
+          "line": "BEST_PATH = CHECKPOINT_DIR / 'best.pt'"
+        },
+        {
+          "cell": 26,
+          "line": "LAST_PATH = CHECKPOINT_DIR / 'last.pt'"
+        },
+        {
+          "cell": 26,
+          "line": "def save_checkpoint(path, epoch, best_metric, bad_epochs):"
+        },
+        {
+          "cell": 30,
+          "line": "save_checkpoint(BEST_PATH, epoch, best_metric, bad_epochs)"
+        },
+        {
+          "cell": 30,
+          "line": "save_checkpoint(LAST_PATH, epoch, best_metric, bad_epochs)"
+        }
+      ],
+      "local_helper_imports": [],
+      "contains_old_repository_url": false,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/Downloads/ct_notebook_copies/train_ctclip_temporal_colab (1).ipynb",
+      "sha256": "a6f3add384810a1af4647d3c8a2b0838232f73648bb0fa0780f101b4923fcf22",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# Complete model \u2014 CT-CLIP Temporal Difference Transformer (Colab)",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "markdown",
+          "first_line": "## 1. Setup: clone CT-CLIP + our repo, install deps",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "%cd /content",
+          "outputs": 3
+        },
+        {
+          "index": 3,
+          "type": "markdown",
+          "first_line": "## 2. Mount Drive + config paths",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "from google.colab import drive",
+          "outputs": 1
+        },
+        {
+          "index": 5,
+          "type": "markdown",
+          "first_line": "## 3. Load cached CT-CLIP IMAGE embeddings (512-d per volume)",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "import glob",
+          "outputs": 1
+        },
+        {
+          "index": 7,
+          "type": "markdown",
+          "first_line": "## 4. Build the frozen CT-CLIP text tower (for prototypes + evidence)",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "from huggingface_hub import login, hf_hub_download",
+          "outputs": 11
+        },
+        {
+          "index": 9,
+          "type": "markdown",
+          "first_line": "## 5. Load labels + splits \u2192 build (pair, finding) examples",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "code",
+          "first_line": "def vkey(v): return v.replace('.nii.gz', '').replace('.nii', '')",
+          "outputs": 1
+        },
+        {
+          "index": 11,
+          "type": "markdown",
+          "first_line": "## 6. Build finding\u00d7class text prototypes with the CT-CLIP text tower (cached)",
+          "outputs": 0
+        },
+        {
+          "index": 12,
+          "type": "code",
+          "first_line": "TEMPLATES = {",
+          "outputs": 1
+        },
+        {
+          "index": 13,
+          "type": "markdown",
+          "first_line": "## 7. Tensorize splits (+ optional evidence embeddings for contrastive aux)",
+          "outputs": 0
+        },
+        {
+          "index": 14,
+          "type": "code",
+          "first_line": "USE_CONTRASTIVE    = True       # add InfoNCE(d, contrastive-target text) aux loss",
+          "outputs": 1
+        },
+        {
+          "index": 15,
+          "type": "markdown",
+          "first_line": "## 8. The trainable difference module (the ONLY trained component)",
+          "outputs": 0
+        },
+        {
+          "index": 16,
+          "type": "code",
+          "first_line": "class DifferenceTransformer(nn.Module):",
+          "outputs": 1
+        },
+        {
+          "index": 17,
+          "type": "markdown",
+          "first_line": "## 9. Train (early-stop on val macro-F1)",
+          "outputs": 0
+        },
+        {
+          "index": 18,
+          "type": "code",
+          "first_line": "# ---- ablation knobs ----",
+          "outputs": 1
+        },
+        {
+          "index": 19,
+          "type": "markdown",
+          "first_line": "## 10. TEST \u2014 per class",
+          "outputs": 0
+        },
+        {
+          "index": 20,
+          "type": "code",
+          "first_line": "_, macro, y, pred = run('test')",
+          "outputs": 1
+        },
+        {
+          "index": 21,
+          "type": "markdown",
+          "first_line": "## 11. TEST \u2014 per disease (finding)",
+          "outputs": 0
+        },
+        {
+          "index": 22,
+          "type": "code",
+          "first_line": "_, _, _, _ = run('test')  # ensure eval mode",
+          "outputs": 1
+        },
+        {
+          "index": 23,
+          "type": "code",
+          "first_line": "# =====================================================================",
+          "outputs": 1
+        },
+        {
+          "index": 24,
+          "type": "markdown",
+          "first_line": "## Notes / ablations",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 12,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        2
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/3dCT"
+      ],
+      "checkpoint_save_code": [
+        {
+          "cell": 12,
+          "line": "torch.save(PROTO, PROTO_PT)"
+        }
+      ],
+      "local_helper_imports": [
+        "ctclip_utils"
+      ],
+      "contains_old_repository_url": true,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/Downloads/ct_notebook_copies/train_ctclip_temporal_colab.ipynb",
+      "sha256": "00b46988bb61d6a08f507fec56232f964b2fed71d1a3cce32ecedb3e73454aa4",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# Complete model \u2014 CT-CLIP Temporal Difference Transformer (Colab)",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "markdown",
+          "first_line": "## 1. Setup: clone CT-CLIP + our repo, install deps",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "%cd /content",
+          "outputs": 3
+        },
+        {
+          "index": 3,
+          "type": "markdown",
+          "first_line": "## 2. Mount Drive + config paths",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "from google.colab import drive",
+          "outputs": 1
+        },
+        {
+          "index": 5,
+          "type": "markdown",
+          "first_line": "## 3. Load cached CT-CLIP IMAGE embeddings (512-d per volume)",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "import glob",
+          "outputs": 1
+        },
+        {
+          "index": 7,
+          "type": "markdown",
+          "first_line": "## 4. Build the frozen CT-CLIP text tower (for prototypes + evidence)",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "from huggingface_hub import login, hf_hub_download",
+          "outputs": 11
+        },
+        {
+          "index": 9,
+          "type": "markdown",
+          "first_line": "## 5. Load labels + splits \u2192 build (pair, finding) examples",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "code",
+          "first_line": "def vkey(v): return v.replace('.nii.gz', '').replace('.nii', '')",
+          "outputs": 1
+        },
+        {
+          "index": 11,
+          "type": "markdown",
+          "first_line": "## 6. Build finding\u00d7class text prototypes with the CT-CLIP text tower (cached)",
+          "outputs": 0
+        },
+        {
+          "index": 12,
+          "type": "code",
+          "first_line": "TEMPLATES = {",
+          "outputs": 2
+        },
+        {
+          "index": 13,
+          "type": "markdown",
+          "first_line": "## 7. Tensorize splits (+ optional evidence embeddings for contrastive aux)",
+          "outputs": 0
+        },
+        {
+          "index": 14,
+          "type": "code",
+          "first_line": "USE_CONTRASTIVE = True   # set True to add InfoNCE(d, evidence sentence) aux loss",
+          "outputs": 1
+        },
+        {
+          "index": 15,
+          "type": "markdown",
+          "first_line": "## 8. The trainable difference module (the ONLY trained component)",
+          "outputs": 0
+        },
+        {
+          "index": 16,
+          "type": "code",
+          "first_line": "class DifferenceTransformer(nn.Module):",
+          "outputs": 1
+        },
+        {
+          "index": 17,
+          "type": "markdown",
+          "first_line": "## 9. Train (early-stop on val macro-F1)",
+          "outputs": 0
+        },
+        {
+          "index": 18,
+          "type": "code",
+          "first_line": "# ---- ablation knobs ----",
+          "outputs": 1
+        },
+        {
+          "index": 19,
+          "type": "markdown",
+          "first_line": "## 10. TEST \u2014 per class",
+          "outputs": 0
+        },
+        {
+          "index": 20,
+          "type": "code",
+          "first_line": "_, macro, y, pred = run('test')",
+          "outputs": 1
+        },
+        {
+          "index": 21,
+          "type": "markdown",
+          "first_line": "## 11. TEST \u2014 per disease (finding)",
+          "outputs": 0
+        },
+        {
+          "index": 22,
+          "type": "code",
+          "first_line": "_, _, _, _ = run('test')  # ensure eval mode",
+          "outputs": 1
+        },
+        {
+          "index": 23,
+          "type": "markdown",
+          "first_line": "## Notes / ablations",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 11,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        2
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/3dCT",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/proto_bank.pt"
+      ],
+      "checkpoint_save_code": [
+        {
+          "cell": 12,
+          "line": "torch.save(PROTO, PROTO_PT)"
+        }
+      ],
+      "local_helper_imports": [
+        "ctclip_utils"
+      ],
+      "contains_old_repository_url": true,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/Downloads/ct_notebook_copies/train_v1_ctrate (1).ipynb",
+      "sha256": "e8d8fe2be21e54572e2052c586e291d9f70e605f4287ea5249f67bc69339eccf",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# v1 Global Temporal Transformer \u2014 train on CT-RATE cached features",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "code",
+          "first_line": "# 1. Setup + auth",
+          "outputs": 1
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "# 2. Pull cached features (pooled) + prompt bank from GCS",
+          "outputs": 1
+        },
+        {
+          "index": 3,
+          "type": "code",
+          "first_line": "# 3. Upload labels + splits, then build (pair, finding) examples per split",
+          "outputs": 3
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "# 4. Tensorize each split (VP, VC, PROTO(3x512), Y, and finding name for per-disease F1)",
+          "outputs": 1
+        },
+        {
+          "index": 5,
+          "type": "code",
+          "first_line": "# 5. The trainable temporal module (the ONLY trained component)",
+          "outputs": 1
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "# 6. Train (early-stop on val macro-F1)",
+          "outputs": 1
+        },
+        {
+          "index": 7,
+          "type": "code",
+          "first_line": "# 7. TEST metrics \u2014 per class",
+          "outputs": 1
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "# 8. TEST metrics \u2014 per disease (finding)",
+          "outputs": 1
+        },
+        {
+          "index": 9,
+          "type": "code",
+          "first_line": "# 9. NAIVE zero-shot baseline \u2014 d = v_current \u2212 v_prior, cosine vs finding prompts.",
+          "outputs": 1
+        },
+        {
+          "index": 10,
+          "type": "code",
+          "first_line": "# Cosine separability of the text prompts (worsened / stable / improved)",
+          "outputs": 1
+        },
+        {
+          "index": 11,
+          "type": "markdown",
+          "first_line": "## Notes",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 10,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        1,
+        2
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [],
+      "checkpoint_save_code": [],
+      "local_helper_imports": [],
+      "contains_old_repository_url": false,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/Downloads/ct_notebook_copies/train_v1_ctrate.ipynb",
+      "sha256": "3f601b35e34161c4975ea070fde0243f3dd3b617fed4afe6f29fd2920126c76b",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# v1 Global Temporal Transformer \u2014 train on CT-RATE cached features",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "code",
+          "first_line": "# 1. Setup + auth",
+          "outputs": 1
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "# 2. Pull cached features (pooled) + prompt bank from GCS",
+          "outputs": 1
+        },
+        {
+          "index": 3,
+          "type": "code",
+          "first_line": "# 3. Upload labels + splits, then build (pair, finding) examples per split",
+          "outputs": 3
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "# 4. Tensorize each split (VP, VC, PROTO(3x512), Y, and finding name for per-disease F1)",
+          "outputs": 1
+        },
+        {
+          "index": 5,
+          "type": "code",
+          "first_line": "# 5. The trainable temporal module (the ONLY trained component)",
+          "outputs": 1
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "# 6. Train (early-stop on val macro-F1)",
+          "outputs": 1
+        },
+        {
+          "index": 7,
+          "type": "code",
+          "first_line": "# 7. TEST metrics \u2014 per class",
+          "outputs": 1
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "# 8. TEST metrics \u2014 per disease (finding)",
+          "outputs": 1
+        },
+        {
+          "index": 9,
+          "type": "code",
+          "first_line": "# 9. NAIVE zero-shot baseline \u2014 d = v_current \u2212 v_prior, cosine vs finding prompts.",
+          "outputs": 1
+        },
+        {
+          "index": 10,
+          "type": "markdown",
+          "first_line": "## Notes",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 9,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        1,
+        2
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [],
+      "checkpoint_save_code": [],
+      "local_helper_imports": [],
+      "contains_old_repository_url": false,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/Downloads/ct_notebook_copies/unfixed_supcon.ipynb",
+      "sha256": "69541830c55e88b745d15e5d1e3f3d288641ae26d8baba866d8154d0e964d6fe",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# Proposed pipeline \u2014 Finding-Conditioned CT Temporal Progression (Colab)",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "markdown",
+          "first_line": "## 1. Setup: clone CT-CLIP + our repo, install deps",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "%cd /content",
+          "outputs": 3
+        },
+        {
+          "index": 3,
+          "type": "markdown",
+          "first_line": "## 2. Mount Drive + config paths + ablation knobs",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "from google.colab import drive",
+          "outputs": 1
+        },
+        {
+          "index": 5,
+          "type": "markdown",
+          "first_line": "## 3. Load cached CT-CLIP IMAGE embeddings (512-d per volume)",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "import glob",
+          "outputs": 1
+        },
+        {
+          "index": 7,
+          "type": "markdown",
+          "first_line": "## 4. Frozen CT-CLIP text tower (prototypes + optional finding-name embeddings)",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "from huggingface_hub import login, hf_hub_download",
+          "outputs": 11
+        },
+        {
+          "index": 9,
+          "type": "markdown",
+          "first_line": "## 5. Labels + strict Hub train / Hub validation separation",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "code",
+          "first_line": "def vkey(v): return v.replace('.nii.gz', '').replace('.nii', '')",
+          "outputs": 1
+        },
+        {
+          "index": 11,
+          "type": "markdown",
+          "first_line": "## 6. Build finding x class text prototypes (`PROTO[finding]`, 3x512, frozen)",
+          "outputs": 0
+        },
+        {
+          "index": 12,
+          "type": "code",
+          "first_line": "TEMPLATES = {",
+          "outputs": 1
+        },
+        {
+          "index": 13,
+          "type": "markdown",
+          "first_line": "## 7. Tensorize splits",
+          "outputs": 0
+        },
+        {
+          "index": 14,
+          "type": "code",
+          "first_line": "def tensorize(exs):",
+          "outputs": 1
+        },
+        {
+          "index": 15,
+          "type": "markdown",
+          "first_line": "## 8. Trainable module \u2014 finding-conditioned Difference Transformer",
+          "outputs": 0
+        },
+        {
+          "index": 16,
+          "type": "code",
+          "first_line": "class DifferenceTransformer(nn.Module):",
+          "outputs": 1
+        },
+        {
+          "index": 17,
+          "type": "markdown",
+          "first_line": "## 9. Contrastive-aware batch sampler",
+          "outputs": 0
+        },
+        {
+          "index": 18,
+          "type": "code",
+          "first_line": "def build_buckets(split):",
+          "outputs": 1
+        },
+        {
+          "index": 19,
+          "type": "markdown",
+          "first_line": "## 10. Train on Hub `train_*` (early-stop on patient-held-out `train_*` tune)",
+          "outputs": 0
+        },
+        {
+          "index": 20,
+          "type": "code",
+          "first_line": "model = DifferenceTransformer(",
+          "outputs": 1
+        },
+        {
+          "index": 21,
+          "type": "markdown",
+          "first_line": "## 11. FINAL TEST \u2014 CT-RATE Hub `valid_*` only",
+          "outputs": 0
+        },
+        {
+          "index": 22,
+          "type": "code",
+          "first_line": "_, macro, y, pred = evaluate('test')",
+          "outputs": 1
+        },
+        {
+          "index": 23,
+          "type": "markdown",
+          "first_line": "## 12. FINAL HUB-VALIDATION TEST \u2014 per disease (finding)",
+          "outputs": 0
+        },
+        {
+          "index": 24,
+          "type": "code",
+          "first_line": "model.eval()",
+          "outputs": 1
+        },
+        {
+          "index": 25,
+          "type": "markdown",
+          "first_line": "## 13. Save checkpoint",
+          "outputs": 0
+        },
+        {
+          "index": 26,
+          "type": "code",
+          "first_line": "# =============================================================================",
+          "outputs": 5
+        },
+        {
+          "index": 27,
+          "type": "code",
+          "first_line": "ckpt_dir = f'{DRIVE}/ctclip_cache/checkpoints'",
+          "outputs": 0
+        },
+        {
+          "index": 28,
+          "type": "markdown",
+          "first_line": "## Notes / ablations",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 13,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        2
+      ],
+      "saved_checkpoint_paths_in_outputs": [
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag0_supcon1_seed0_20260817_020740.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag1_supcon0_seed1_20260817_020740.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag1_supcon1_seed2_20260817_020740.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag0_supcon0_seed3_20260817_020740.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag0_supcon1_seed4_20260817_020740.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag1_supcon0_seed5_20260817_020740.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag1_supcon1_seed6_20260817_020740.pt"
+      ],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/3dCT",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/loss_ablation_20260817_020740.csv",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag0_supcon1_seed0_20260817_020740.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag1_supcon0_seed1_20260817_020740.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce0_mag1_supcon1_seed2_20260817_020740.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag0_supcon0_seed3_20260817_020740.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag0_supcon1_seed4_20260817_020740.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag1_supcon0_seed5_20260817_020740.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/ablations/proposed_ablation_ce1_mag1_supcon1_seed6_20260817_020740.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/finding_name_emb.pt",
+        "/content/drive/MyDrive/3dCT/ctclip_cache/proto_bank.pt"
+      ],
+      "checkpoint_save_code": [
+        {
+          "cell": 12,
+          "line": "torch.save(PROTO, proto_cache)"
+        },
+        {
+          "cell": 12,
+          "line": "torch.save(FINDING_NAME_EMB, FINDING_NAME_PT)"
+        },
+        {
+          "cell": 26,
+          "line": "torch.save({"
+        },
+        {
+          "cell": 27,
+          "line": "ckpt_path = f'{ckpt_dir}/proposed_{tag}.pt'"
+        },
+        {
+          "cell": 27,
+          "line": "torch.save({"
+        }
+      ],
+      "local_helper_imports": [
+        "ctclip_utils"
+      ],
+      "contains_old_repository_url": true,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/notebooks/ctclip_features_colab.ipynb",
+      "sha256": "e9f09c8535e3e06f93404aceed0789b0f12397fd2c5acc9f7b16e3b9ad8fa387",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# CT-CLIP feature extraction (CT-RATE-native encoder) \u2014 Colab",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "markdown",
+          "first_line": "## 1. GPU check",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "!nvidia-smi || echo 'NO GPU \u2014 set Runtime > Change runtime type > GPU (A100/L4 ideal, >=24 GB)'",
+          "outputs": 0
+        },
+        {
+          "index": 3,
+          "type": "markdown",
+          "first_line": "## 2. Setup: clone CT-CLIP + install deps",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "%cd /content",
+          "outputs": 0
+        },
+        {
+          "index": 5,
+          "type": "markdown",
+          "first_line": "## 3. Mount Drive + get our repo helper (`ctclip_utils.py`)",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "from google.colab import drive",
+          "outputs": 0
+        },
+        {
+          "index": 7,
+          "type": "markdown",
+          "first_line": "## 4. HuggingFace auth (CT-RATE + CT-CLIP are gated)",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "from huggingface_hub import login",
+          "outputs": 0
+        },
+        {
+          "index": 9,
+          "type": "markdown",
+          "first_line": "## 5. Download CT-CLIP weights (once) \u2014 cache to Drive so sessions reuse it",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "code",
+          "first_line": "from huggingface_hub import hf_hub_download",
+          "outputs": 0
+        },
+        {
+          "index": 11,
+          "type": "markdown",
+          "first_line": "## 6. Build the frozen CT-CLIP embedder",
+          "outputs": 0
+        },
+        {
+          "index": 12,
+          "type": "code",
+          "first_line": "from ctclip_utils import CTCLIPEmbedder",
+          "outputs": 0
+        },
+        {
+          "index": 13,
+          "type": "markdown",
+          "first_line": "## 6b. VERIFY model API (catch attribute/shape drift before the full run)",
+          "outputs": 0
+        },
+        {
+          "index": 14,
+          "type": "code",
+          "first_line": "for a in ['visual_transformer','text_transformer','to_visual_latent','to_text_latent']:",
+          "outputs": 0
+        },
+        {
+          "index": 15,
+          "type": "markdown",
+          "first_line": "## 7. Separability spike (the key free result)",
+          "outputs": 0
+        },
+        {
+          "index": 16,
+          "type": "code",
+          "first_line": "import itertools, torch",
+          "outputs": 0
+        },
+        {
+          "index": 17,
+          "type": "markdown",
+          "first_line": "## 8. Load the 600-pair subset manifest",
+          "outputs": 0
+        },
+        {
+          "index": 18,
+          "type": "code",
+          "first_line": "import csv, json, glob",
+          "outputs": 0
+        },
+        {
+          "index": 19,
+          "type": "markdown",
+          "first_line": "## 9. Stream \u2192 encode \u2192 auto-save to Drive \u2192 delete  (RESUMABLE)",
+          "outputs": 0
+        },
+        {
+          "index": 20,
+          "type": "code",
+          "first_line": "import time, json, torch",
+          "outputs": 0
+        },
+        {
+          "index": 21,
+          "type": "markdown",
+          "first_line": "## 10. Text embeddings: dynamic & static sentences per pair \u2192 Drive",
+          "outputs": 0
+        },
+        {
+          "index": 22,
+          "type": "code",
+          "first_line": "import glob, json, torch",
+          "outputs": 0
+        },
+        {
+          "index": 23,
+          "type": "markdown",
+          "first_line": "## 11. Verify: how many volumes cached vs expected",
+          "outputs": 0
+        },
+        {
+          "index": 24,
+          "type": "code",
+          "first_line": "import glob",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 0,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        2,
+        4,
+        6
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/3dCT/ctclip_cache",
+        "/content/drive/MyDrive/3dCT/ctclip_weights"
+      ],
+      "checkpoint_save_code": [
+        {
+          "cell": 20,
+          "line": "torch.save(e.half().squeeze(0).clone(), out_pt)   # AUTO-SAVE to Drive now"
+        },
+        {
+          "cell": 22,
+          "line": "torch.save({'td': td.half(), 'ts': ts.half(),"
+        }
+      ],
+      "local_helper_imports": [
+        "ctclip_utils"
+      ],
+      "contains_old_repository_url": true,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/notebooks/ctrate_download_colab.ipynb",
+      "sha256": "ab10fb720dfb5dbb55346b97a0d034032061fb10f916bd19775f734c7db04ff4",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# CT-RATE \u2192 CT-CLIP embeddings \u2192 Drive  (disk-safe, resumable)",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "code",
+          "first_line": "# --- GPU check ---",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "# --- clone CT-CLIP + install (CTViT is torch-picky; if imports fail, restart once) ---",
+          "outputs": 0
+        },
+        {
+          "index": 3,
+          "type": "code",
+          "first_line": "# --- Drive + repo + auth + weights + embedder + define e-",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "# ===== CELL 1: encode ALL VALIDATION volumes -> Drive (embeddings only) =====",
+          "outputs": 0
+        },
+        {
+          "index": 5,
+          "type": "code",
+          "first_line": "# ===== CELL 2: encode ALL TRAINING volumes -> Drive (embeddings only) =====",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "markdown",
+          "first_line": "## Notes",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 0,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        1,
+        2,
+        3
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/3dCT/ctclip_cache",
+        "/content/drive/MyDrive/3dCT/ctclip_weights"
+      ],
+      "checkpoint_save_code": [
+        {
+          "cell": 3,
+          "line": "torch.save(e.half().squeeze(0).clone(), out_pt)  # AUTO-SAVE to Drive now"
+        }
+      ],
+      "local_helper_imports": [
+        "ctclip_utils"
+      ],
+      "contains_old_repository_url": true,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/notebooks/exact_encode_ctrate_cache_colab.ipynb",
+      "sha256": "c0c4e8fb2bd1c2918b7bff89edba124886b8e9f0c9c52e864d91bb72ab552229",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# CT-RATE \u2192 official EXACT Y-Mamba image encodings \u2192 Google Drive",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "code",
+          "first_line": "# GPU/runtime check. PyTorch 2.4.1 has no Python 3.13 wheel, so it cannot be installed",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "markdown",
+          "first_line": "## 1. Install the official EXACT foundation-model environment",
+          "outputs": 0
+        },
+        {
+          "index": 3,
+          "type": "code",
+          "first_line": "# Install EXACT's documented PyTorch generation. The already-imported base torch cannot",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "# Install binary-compatible prebuilt Mamba wheels (no local CUDA compilation).",
+          "outputs": 0
+        },
+        {
+          "index": 5,
+          "type": "markdown",
+          "first_line": "## 2. Mount Drive and configure paths",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "from google.colab import drive",
+          "outputs": 0
+        },
+        {
+          "index": 7,
+          "type": "markdown",
+          "first_line": "## 3. Official checkpoint",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "import gdown",
+          "outputs": 0
+        },
+        {
+          "index": 9,
+          "type": "markdown",
+          "first_line": "## 4. Reconstruct the full longitudinal CT-RATE target set",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "code",
+          "first_line": "import csv",
+          "outputs": 0
+        },
+        {
+          "index": 11,
+          "type": "markdown",
+          "first_line": "## 5. Authenticate to gated CT-RATE and define disk-safe downloads",
+          "outputs": 0
+        },
+        {
+          "index": 12,
+          "type": "code",
+          "first_line": "def remote_candidates(volume):",
+          "outputs": 0
+        },
+        {
+          "index": 13,
+          "type": "markdown",
+          "first_line": "## 6. Reconstructed NIfTI preprocessing",
+          "outputs": 0
+        },
+        {
+          "index": 14,
+          "type": "code",
+          "first_line": "import nibabel as nib",
+          "outputs": 0
+        },
+        {
+          "index": 15,
+          "type": "markdown",
+          "first_line": "## 7. Build official Y-Mamba, load weights, and expose encoder features",
+          "outputs": 0
+        },
+        {
+          "index": 16,
+          "type": "code",
+          "first_line": "import hashlib, gc",
+          "outputs": 0
+        },
+        {
+          "index": 17,
+          "type": "markdown",
+          "first_line": "## 8. Resumable encoder loop",
+          "outputs": 0
+        },
+        {
+          "index": 18,
+          "type": "code",
+          "first_line": "import psutil",
+          "outputs": 0
+        },
+        {
+          "index": 19,
+          "type": "markdown",
+          "first_line": "## 9. Smoke test one validation CT",
+          "outputs": 0
+        },
+        {
+          "index": 20,
+          "type": "code",
+          "first_line": "smoke_volume = valid_targets[0]",
+          "outputs": 0
+        },
+        {
+          "index": 21,
+          "type": "markdown",
+          "first_line": "## 10. Encode all validation targets",
+          "outputs": 0
+        },
+        {
+          "index": 22,
+          "type": "code",
+          "first_line": "remaining_valid = print_target_status(valid_targets, 'Longitudinal validation')",
+          "outputs": 0
+        },
+        {
+          "index": 23,
+          "type": "markdown",
+          "first_line": "## 11. Encode every longitudinal `train_*` target",
+          "outputs": 0
+        },
+        {
+          "index": 24,
+          "type": "code",
+          "first_line": "remaining_train = print_target_status(train_targets, 'Longitudinal training')",
+          "outputs": 0
+        },
+        {
+          "index": 25,
+          "type": "markdown",
+          "first_line": "## 12. Final one-to-one coverage audit",
+          "outputs": 0
+        },
+        {
+          "index": 26,
+          "type": "code",
+          "first_line": "def audit(volumes):",
+          "outputs": 0
+        },
+        {
+          "index": 27,
+          "type": "markdown",
+          "first_line": "## Output and downstream use",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 0,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        1,
+        4
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/3dCT"
+      ],
+      "checkpoint_save_code": [
+        {
+          "cell": 18,
+          "line": "torch.save(payload, temporary)"
+        }
+      ],
+      "local_helper_imports": [],
+      "contains_old_repository_url": false,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/notebooks/label_per_finding_temporal_colab.ipynb",
+      "sha256": "1116a0235829a57fe96ad70c6791e4b9674282c4b1fe9f1a672792f263d6eb98",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# CT-RATE Temporal Labeling v7 \u2014 CURRENT-REPORT SEMANTICS, SOURCE-AWARE",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "code",
+          "first_line": "# 1. Deps",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "# 2. GPU sanity \u2014 expect an A100 with ~80 GB",
+          "outputs": 0
+        },
+        {
+          "index": 3,
+          "type": "code",
+          "first_line": "# 3. Hugging Face login (gated MedGemma weights)",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "# 4. Upload ctrate_pairs_enriched_v2.csv",
+          "outputs": 0
+        },
+        {
+          "index": 5,
+          "type": "code",
+          "first_line": "# 5. v7 CURRENT-REPORT semantic extraction + source-aware merge (NO semantic regex)",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "# 6. Load MedGemma-27B in bf16 straight onto the GPU",
+          "outputs": 0
+        },
+        {
+          "index": 7,
+          "type": "code",
+          "first_line": "# 7. ONE-PASS labeling \u2014 Drive-resumable; reports are NEVER truncated",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "# 8. v7 QC \u2014 source/class/domain/text grounding (NO semantic regex)",
+          "outputs": 0
+        },
+        {
+          "index": 9,
+          "type": "code",
+          "first_line": "# 9. Output is already on Drive; download a backup",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "markdown",
+          "first_line": "## v7 pilot QC checklist",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 0,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        1
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/ct_temporal"
+      ],
+      "checkpoint_save_code": [],
+      "local_helper_imports": [],
+      "contains_old_repository_url": false,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/notebooks/medgemma_label_colab.ipynb",
+      "sha256": "1911eed1847c1362f2f1e4d695f16cd1d2f4cb039780635b8dc622700d692dea",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# CT-RATE Temporal Labeling v3 \u2014 TEXT PRECEDENCE",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "code",
+          "first_line": "# 1. Deps",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "# 2. GPU sanity \u2014 expect an A100 with ~80 GB",
+          "outputs": 0
+        },
+        {
+          "index": 3,
+          "type": "code",
+          "first_line": "# 3. Hugging Face login (gated MedGemma weights)",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "# 4. Upload ctrate_pairs_enriched_v2.csv",
+          "outputs": 0
+        },
+        {
+          "index": 5,
+          "type": "code",
+          "first_line": "# 5. v3 prompt: ask about ALL 18 findings + merge with TEXT PRECEDENCE",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "# 6. Load MedGemma-27B in bf16 straight onto the GPU",
+          "outputs": 0
+        },
+        {
+          "index": 7,
+          "type": "code",
+          "first_line": "# 7. Labeling \u2014 writes STRAIGHT TO DRIVE, resumable",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "# 8. QC \u2014 did text precedence actually change things?",
+          "outputs": 0
+        },
+        {
+          "index": 9,
+          "type": "code",
+          "first_line": "# 9. Already on Drive; also pull a local backup",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "markdown",
+          "first_line": "## What to check in the pilot QC",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 0,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        1
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/ct_temporal"
+      ],
+      "checkpoint_save_code": [],
+      "local_helper_imports": [],
+      "contains_old_repository_url": false,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/notebooks/merlin_features_gcp.ipynb",
+      "sha256": "0242824b68b1ab8ffff7d315497b1717f3ad86ca8902c10cb2321af2db5054f9",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# Phase B \u2014 Cache frozen MERLIN features to GCS",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "code",
+          "first_line": "# 1. Install deps (merlin-vlm pulls torch + monai + transformers)",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "# 2. Auth: Google Cloud + Hugging Face",
+          "outputs": 0
+        },
+        {
+          "index": 3,
+          "type": "code",
+          "first_line": "# 3. CT-RATE volume -> HF path, and a selective downloader (self-contained)",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "# 4. VERIFY (a): can we actually download a CT-RATE volume?",
+          "outputs": 0
+        },
+        {
+          "index": 5,
+          "type": "code",
+          "first_line": "# 5. Preprocessing (MERLIN's recipe) \u2014 MONAI transforms",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "# 6. Load frozen MERLIN + hook layer4 (the pre-pool grid we need)",
+          "outputs": 0
+        },
+        {
+          "index": 7,
+          "type": "code",
+          "first_line": "# 7. VERIFY (b): TRUE feature shapes + timing + GCS round-trip",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "# 8. PRODUCTION LOOP \u2014 upload a pair manifest, then stream-and-delete",
+          "outputs": 0
+        },
+        {
+          "index": 9,
+          "type": "code",
+          "first_line": "# 8b. PARALLEL caching (use INSTEAD of cell 8) \u2014 threaded downloads overlap GPU encode.",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "code",
+          "first_line": "# 9. Cache the TEXT side too (frozen MERLIN text encoder) \u2014 seconds, ~KB",
+          "outputs": 0
+        },
+        {
+          "index": 11,
+          "type": "markdown",
+          "first_line": "## How to run this",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 0,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        1,
+        2,
+        8,
+        9
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [],
+      "checkpoint_save_code": [],
+      "local_helper_imports": [],
+      "contains_old_repository_url": false,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/notebooks/train_ctclip_lastblock_temporal_colab.ipynb",
+      "sha256": "3673c8f22d7efc77855bfc1e1c828a831191d48227b2535535513d2ab7bd2c5f",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# Temporal progression with partially unfrozen CT-CLIP",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "code",
+          "first_line": "!nvidia-smi",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "markdown",
+          "first_line": "## 1. Install pinned CT-CLIP source",
+          "outputs": 0
+        },
+        {
+          "index": 3,
+          "type": "code",
+          "first_line": "%cd /content",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "markdown",
+          "first_line": "## 2. Mount Drive and configure the experiment",
+          "outputs": 0
+        },
+        {
+          "index": 5,
+          "type": "code",
+          "first_line": "from google.colab import drive",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "markdown",
+          "first_line": "## 3. Authenticate and download official CT-CLIP weights",
+          "outputs": 0
+        },
+        {
+          "index": 7,
+          "type": "code",
+          "first_line": "from huggingface_hub import get_token, hf_hub_download, login",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "markdown",
+          "first_line": "## 4. Reconstruct the full longitudinal temporal cohort",
+          "outputs": 0
+        },
+        {
+          "index": 9,
+          "type": "code",
+          "first_line": "CLASSES = ['worsened', 'stable', 'improved']",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "markdown",
+          "first_line": "## 5. CT-CLIP preprocessing and gated volume download",
+          "outputs": 0
+        },
+        {
+          "index": 11,
+          "type": "code",
+          "first_line": "import nibabel as nib",
+          "outputs": 0
+        },
+        {
+          "index": 12,
+          "type": "markdown",
+          "first_line": "## 6. Build CT-CLIP and load official weights",
+          "outputs": 0
+        },
+        {
+          "index": 13,
+          "type": "code",
+          "first_line": "from transformers import BertModel",
+          "outputs": 0
+        },
+        {
+          "index": 14,
+          "type": "markdown",
+          "first_line": "## 7. Cache the frozen visual prefix for the 6,590 temporal scans",
+          "outputs": 0
+        },
+        {
+          "index": 15,
+          "type": "code",
+          "first_line": "from einops import rearrange",
+          "outputs": 0
+        },
+        {
+          "index": 16,
+          "type": "markdown",
+          "first_line": "## 7b. Verify cached-prefix equivalence on a real CT",
+          "outputs": 0
+        },
+        {
+          "index": 17,
+          "type": "code",
+          "first_line": "@torch.inference_mode()",
+          "outputs": 0
+        },
+        {
+          "index": 18,
+          "type": "markdown",
+          "first_line": "## 8. Build frozen CT-CLIP text targets and class prototypes",
+          "outputs": 0
+        },
+        {
+          "index": 19,
+          "type": "code",
+          "first_line": "TEMPLATES = {",
+          "outputs": 0
+        },
+        {
+          "index": 20,
+          "type": "markdown",
+          "first_line": "## 9. Stage prefix tensors to local disk for training",
+          "outputs": 0
+        },
+        {
+          "index": 21,
+          "type": "code",
+          "first_line": "PREFIX_READ_DIR = PREFIX_DIR",
+          "outputs": 0
+        },
+        {
+          "index": 22,
+          "type": "markdown",
+          "first_line": "## 10. Construct the trainable visual tail and Difference Transformer",
+          "outputs": 0
+        },
+        {
+          "index": 23,
+          "type": "code",
+          "first_line": "# Free modules not needed during training, then move only the tail to GPU.",
+          "outputs": 0
+        },
+        {
+          "index": 24,
+          "type": "markdown",
+          "first_line": "## 11. Pair loading, losses, evaluation, and resumable checkpoints",
+          "outputs": 0
+        },
+        {
+          "index": 25,
+          "type": "code",
+          "first_line": "def load_prefix(volume):",
+          "outputs": 0
+        },
+        {
+          "index": 26,
+          "type": "markdown",
+          "first_line": "## 12. Benchmark 10 pairs before committing to the run",
+          "outputs": 0
+        },
+        {
+          "index": 27,
+          "type": "code",
+          "first_line": "MODEL.train(); MODEL.tail.vq.eval(); optimizer.zero_grad(set_to_none=True)",
+          "outputs": 0
+        },
+        {
+          "index": 28,
+          "type": "markdown",
+          "first_line": "## 13. Train with epoch-level resume and early stopping",
+          "outputs": 0
+        },
+        {
+          "index": 29,
+          "type": "code",
+          "first_line": "start_epoch = 1; best_metric = -1.0; bad_epochs = 0",
+          "outputs": 0
+        },
+        {
+          "index": 30,
+          "type": "markdown",
+          "first_line": "## 14. Final held-out test evaluation",
+          "outputs": 0
+        },
+        {
+          "index": 31,
+          "type": "code",
+          "first_line": "assert BEST_PATH.is_file(), 'No best checkpoint exists.'",
+          "outputs": 0
+        },
+        {
+          "index": 32,
+          "type": "markdown",
+          "first_line": "## Interpretation",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 0,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        1,
+        3
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/3dCT"
+      ],
+      "checkpoint_save_code": [
+        {
+          "cell": 15,
+          "line": "torch.save(payload, temporary); os.replace(temporary, destination)"
+        },
+        {
+          "cell": 25,
+          "line": "BEST_PATH = CHECKPOINT_DIR / 'best.pt'"
+        },
+        {
+          "cell": 25,
+          "line": "LAST_PATH = CHECKPOINT_DIR / 'last.pt'"
+        },
+        {
+          "cell": 25,
+          "line": "def save_checkpoint(path, epoch, best_metric, bad_epochs):"
+        },
+        {
+          "cell": 29,
+          "line": "save_checkpoint(BEST_PATH, epoch, best_metric, bad_epochs)"
+        },
+        {
+          "cell": 29,
+          "line": "save_checkpoint(LAST_PATH, epoch, best_metric, bad_epochs)"
+        }
+      ],
+      "local_helper_imports": [],
+      "contains_old_repository_url": false,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/notebooks/train_ctclip_temporal_colab.ipynb",
+      "sha256": "f4bb98a254904eb215d958c7a7edc39c1ef764f68fbfc6f825c4179289d37b04",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# Complete model \u2014 CT-CLIP Temporal Difference Transformer (Colab)",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "markdown",
+          "first_line": "## 1. Setup: clone CT-CLIP + our repo, install deps",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "%cd /content",
+          "outputs": 0
+        },
+        {
+          "index": 3,
+          "type": "markdown",
+          "first_line": "## 2. Mount Drive + config paths",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "from google.colab import drive",
+          "outputs": 0
+        },
+        {
+          "index": 5,
+          "type": "markdown",
+          "first_line": "## 3. Load cached CT-CLIP IMAGE embeddings (512-d per volume)",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "import glob",
+          "outputs": 0
+        },
+        {
+          "index": 7,
+          "type": "markdown",
+          "first_line": "## 4. Build the frozen CT-CLIP text tower (for prototypes + evidence)",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "from huggingface_hub import login, hf_hub_download",
+          "outputs": 0
+        },
+        {
+          "index": 9,
+          "type": "markdown",
+          "first_line": "## 5. Load labels + enforce Hub train / Hub validation separation",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "code",
+          "first_line": "import hashlib",
+          "outputs": 0
+        },
+        {
+          "index": 11,
+          "type": "markdown",
+          "first_line": "## 6. Build finding\u00d7class text prototypes with the CT-CLIP text tower (cached)",
+          "outputs": 0
+        },
+        {
+          "index": 12,
+          "type": "code",
+          "first_line": "TEMPLATES = {",
+          "outputs": 0
+        },
+        {
+          "index": 13,
+          "type": "markdown",
+          "first_line": "## 7. Tensorize splits (+ optional evidence embeddings for contrastive aux)",
+          "outputs": 0
+        },
+        {
+          "index": 14,
+          "type": "code",
+          "first_line": "USE_CONTRASTIVE    = True       # add InfoNCE(d, contrastive-target text) aux loss",
+          "outputs": 0
+        },
+        {
+          "index": 15,
+          "type": "markdown",
+          "first_line": "## 8. The trainable difference module (the ONLY trained component)",
+          "outputs": 0
+        },
+        {
+          "index": 16,
+          "type": "code",
+          "first_line": "class DifferenceTransformer(nn.Module):",
+          "outputs": 0
+        },
+        {
+          "index": 17,
+          "type": "markdown",
+          "first_line": "## 9. Train on Hub `train_*` only (early-stop on patient-held-out `train_*` tune)",
+          "outputs": 0
+        },
+        {
+          "index": 18,
+          "type": "code",
+          "first_line": "# ---- ablation knobs ----",
+          "outputs": 0
+        },
+        {
+          "index": 19,
+          "type": "markdown",
+          "first_line": "## 10. FINAL TEST \u2014 CT-RATE Hub `valid_*` only",
+          "outputs": 0
+        },
+        {
+          "index": 20,
+          "type": "code",
+          "first_line": "_, macro, y, pred = run('test')",
+          "outputs": 0
+        },
+        {
+          "index": 21,
+          "type": "markdown",
+          "first_line": "## 11. FINAL HUB-VALIDATION TEST \u2014 per disease (finding)",
+          "outputs": 0
+        },
+        {
+          "index": 22,
+          "type": "code",
+          "first_line": "_, _, _, _ = run('test')  # ensure eval mode",
+          "outputs": 0
+        },
+        {
+          "index": 23,
+          "type": "markdown",
+          "first_line": "## Notes / ablations",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 0,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        2
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/3dCT"
+      ],
+      "checkpoint_save_code": [
+        {
+          "cell": 12,
+          "line": "torch.save(PROTO, PROTO_PT)"
+        }
+      ],
+      "local_helper_imports": [
+        "ctclip_utils"
+      ],
+      "contains_old_repository_url": true,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/notebooks/train_holdout_eval_sentence_ablation_colab.ipynb",
+      "sha256": "7d30203dc841157c93dac8b521696b81d9ca39a1cc265d0adafa238730e02c33",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# Holdout-eval sentence ablation \u2014 CT Temporal Progression",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "markdown",
+          "first_line": "## 1. Setup: clone CT-CLIP + repo",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "%cd /content",
+          "outputs": 0
+        },
+        {
+          "index": 3,
+          "type": "markdown",
+          "first_line": "## 2. Drive + config",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "from google.colab import drive",
+          "outputs": 0
+        },
+        {
+          "index": 5,
+          "type": "markdown",
+          "first_line": "## 3. Image cache, text tower, labels, Hub splits",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "import glob",
+          "outputs": 0
+        },
+        {
+          "index": 7,
+          "type": "markdown",
+          "first_line": "## 4. Train CE prototypes vs holdout eval sentence bank",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "# ---- TRAIN templates (CE only; must not overlap eval bank strings) ----",
+          "outputs": 0
+        },
+        {
+          "index": 9,
+          "type": "markdown",
+          "first_line": "## 5. Model + holdout eval + sampler",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "code",
+          "first_line": "class DifferenceTransformer(nn.Module):",
+          "outputs": 0
+        },
+        {
+          "index": 11,
+          "type": "markdown",
+          "first_line": "## 6. Loss ablation under holdout-eval paradigm",
+          "outputs": 0
+        },
+        {
+          "index": 12,
+          "type": "code",
+          "first_line": "import time",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 0,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        2
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/3dCT"
+      ],
+      "checkpoint_save_code": [
+        {
+          "cell": 8,
+          "line": "torch.save(dict(bank=EVAL_BANK, emb=EVAL_BANK_EMB), EVAL_BANK_PT)"
+        },
+        {
+          "cell": 12,
+          "line": "torch.save(dict(model=state, row=row, findings=FINDINGS, classes=CLASSES), path)"
+        }
+      ],
+      "local_helper_imports": [
+        "ctclip_utils"
+      ],
+      "contains_old_repository_url": true,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/notebooks/train_proposed_finding_conditioned_colab.ipynb",
+      "sha256": "3eff67d2f1bfc23741a0c74204c735ddbb411f6e01ac67f3c6a60244512c1260",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# Proposed pipeline \u2014 Finding-Conditioned CT Temporal Progression (Colab)",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "markdown",
+          "first_line": "## 1. Setup: clone CT-CLIP + our repo, install deps",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "%cd /content",
+          "outputs": 0
+        },
+        {
+          "index": 3,
+          "type": "markdown",
+          "first_line": "## 2. Mount Drive + config paths + ablation knobs",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "from google.colab import drive",
+          "outputs": 0
+        },
+        {
+          "index": 5,
+          "type": "markdown",
+          "first_line": "## 3. Load cached CT-CLIP IMAGE embeddings (512-d per volume)",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "import glob",
+          "outputs": 0
+        },
+        {
+          "index": 7,
+          "type": "markdown",
+          "first_line": "## 4. Frozen CT-CLIP text tower (prototypes + optional finding-name embeddings)",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "from huggingface_hub import login, hf_hub_download",
+          "outputs": 0
+        },
+        {
+          "index": 9,
+          "type": "markdown",
+          "first_line": "## 5. Labels + strict Hub train / Hub validation separation",
+          "outputs": 0
+        },
+        {
+          "index": 10,
+          "type": "code",
+          "first_line": "def vkey(v): return v.replace('.nii.gz', '').replace('.nii', '')",
+          "outputs": 0
+        },
+        {
+          "index": 11,
+          "type": "markdown",
+          "first_line": "## 6. Text prototypes (CE) + temporal sentences (contrastive)",
+          "outputs": 0
+        },
+        {
+          "index": 12,
+          "type": "code",
+          "first_line": "TEMPLATES = {",
+          "outputs": 0
+        },
+        {
+          "index": 13,
+          "type": "markdown",
+          "first_line": "## 7. Tensorize splits",
+          "outputs": 0
+        },
+        {
+          "index": 14,
+          "type": "code",
+          "first_line": "def tensorize(exs, ttext_emb):",
+          "outputs": 0
+        },
+        {
+          "index": 15,
+          "type": "markdown",
+          "first_line": "## 8. Trainable module \u2014 finding-conditioned Difference Transformer",
+          "outputs": 0
+        },
+        {
+          "index": 16,
+          "type": "code",
+          "first_line": "class DifferenceTransformer(nn.Module):",
+          "outputs": 0
+        },
+        {
+          "index": 17,
+          "type": "markdown",
+          "first_line": "## 9. Contrastive-aware batch sampler",
+          "outputs": 0
+        },
+        {
+          "index": 18,
+          "type": "code",
+          "first_line": "def build_buckets(split):",
+          "outputs": 0
+        },
+        {
+          "index": 19,
+          "type": "markdown",
+          "first_line": "## 10. Train on Hub `train_*` (early-stop on patient-held-out `train_*` tune)",
+          "outputs": 0
+        },
+        {
+          "index": 20,
+          "type": "code",
+          "first_line": "model = DifferenceTransformer(",
+          "outputs": 0
+        },
+        {
+          "index": 21,
+          "type": "markdown",
+          "first_line": "## 11. FINAL TEST \u2014 CT-RATE Hub `valid_*` only",
+          "outputs": 0
+        },
+        {
+          "index": 22,
+          "type": "code",
+          "first_line": "_, macro, y, pred = evaluate('test')",
+          "outputs": 0
+        },
+        {
+          "index": 23,
+          "type": "markdown",
+          "first_line": "## 12. FINAL HUB-VALIDATION TEST \u2014 per disease (finding)",
+          "outputs": 0
+        },
+        {
+          "index": 24,
+          "type": "code",
+          "first_line": "model.eval()",
+          "outputs": 0
+        },
+        {
+          "index": 25,
+          "type": "markdown",
+          "first_line": "## 13. Save checkpoint",
+          "outputs": 0
+        },
+        {
+          "index": 26,
+          "type": "code",
+          "first_line": "ckpt_dir = f'{DRIVE}/ctclip_cache/checkpoints'",
+          "outputs": 0
+        },
+        {
+          "index": 27,
+          "type": "markdown",
+          "first_line": "## Notes / ablations",
+          "outputs": 0
+        },
+        {
+          "index": 28,
+          "type": "markdown",
+          "first_line": "## 14. Diagnostics \u2014 stable templates vs CE prototypes + contrastive mask sanity",
+          "outputs": 0
+        },
+        {
+          "index": 29,
+          "type": "code",
+          "first_line": "# ---- stable template vs PROTO diagnostic ----",
+          "outputs": 0
+        },
+        {
+          "index": 30,
+          "type": "markdown",
+          "first_line": "## 15. Loss ablation sweep \u2014 CE \u00d7 Mag \u00d7 SupCon",
+          "outputs": 0
+        },
+        {
+          "index": 31,
+          "type": "code",
+          "first_line": "# Loss ablation: CE x Mag x SupCon (cross-modal d <-> temporal text)",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 0,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        2
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [
+        "/content/drive/MyDrive/3dCT"
+      ],
+      "checkpoint_save_code": [
+        {
+          "cell": 12,
+          "line": "torch.save(PROTO, proto_cache)"
+        },
+        {
+          "cell": 12,
+          "line": "torch.save(FINDING_NAME_EMB, FINDING_NAME_PT)"
+        },
+        {
+          "cell": 12,
+          "line": "torch.save(payload, cache_path)"
+        },
+        {
+          "cell": 26,
+          "line": "ckpt_path = f'{ckpt_dir}/proposed_{tag}.pt'"
+        },
+        {
+          "cell": 26,
+          "line": "torch.save({"
+        },
+        {
+          "cell": 31,
+          "line": "torch.save({"
+        }
+      ],
+      "local_helper_imports": [
+        "ctclip_utils"
+      ],
+      "contains_old_repository_url": true,
+      "possible_hf_token_count": 0
+    },
+    {
+      "source": "/Users/nealprakash/3dCT/notebooks/train_v1_ctrate.ipynb",
+      "sha256": "3c4b1a6ac462dcc36eeb7e0d853564ec8523de8cef065ac710f2339164cbbc6d",
+      "cells": [
+        {
+          "index": 0,
+          "type": "markdown",
+          "first_line": "# v1 Global Temporal Transformer \u2014 train on CT-RATE cached features",
+          "outputs": 0
+        },
+        {
+          "index": 1,
+          "type": "code",
+          "first_line": "# 1. Setup + auth",
+          "outputs": 0
+        },
+        {
+          "index": 2,
+          "type": "code",
+          "first_line": "# 2. Pull cached features (pooled) + prompt bank from GCS",
+          "outputs": 0
+        },
+        {
+          "index": 3,
+          "type": "code",
+          "first_line": "# 3. Upload labels + splits, then build (pair, finding) examples per split",
+          "outputs": 0
+        },
+        {
+          "index": 4,
+          "type": "code",
+          "first_line": "# 4. Tensorize each split (VP, VC, PROTO(3x512), Y, and finding name for per-disease F1)",
+          "outputs": 0
+        },
+        {
+          "index": 5,
+          "type": "code",
+          "first_line": "# 5. The trainable temporal module (the ONLY trained component)",
+          "outputs": 0
+        },
+        {
+          "index": 6,
+          "type": "code",
+          "first_line": "# 6. Train (early-stop on val macro-F1)",
+          "outputs": 0
+        },
+        {
+          "index": 7,
+          "type": "code",
+          "first_line": "# 7. TEST metrics \u2014 per class",
+          "outputs": 0
+        },
+        {
+          "index": 8,
+          "type": "code",
+          "first_line": "# 8. TEST metrics \u2014 per disease (finding)",
+          "outputs": 0
+        },
+        {
+          "index": 9,
+          "type": "markdown",
+          "first_line": "## Notes",
+          "outputs": 0
+        }
+      ],
+      "output_cells": 0,
+      "output_error_cells": [],
+      "plain_python_syntax_errors": [],
+      "magic_or_shell_cells_not_syntax_checked": [
+        1,
+        2
+      ],
+      "saved_checkpoint_paths_in_outputs": [],
+      "literal_drive_paths": [],
+      "checkpoint_save_code": [],
+      "local_helper_imports": [],
+      "contains_old_repository_url": false,
+      "possible_hf_token_count": 0
+    }
+  ]
+}

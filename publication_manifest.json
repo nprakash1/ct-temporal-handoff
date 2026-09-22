@@ -1,0 +1,80 @@
+{
+  "policy": "Notebook source cells preserved; only selected plain-text aggregate outputs kept. All other outputs, attachments and session metadata removed. Original hashes and full local evidence remain with the owner. This is not a comprehensive privacy certification.",
+  "notebooks": [
+    {
+      "file": "notebooks/historical/06_merlin_temporal_adapter_and_zeroshot_executed.ipynb",
+      "original_sha256": "e8d8fe2be21e54572e2052c586e291d9f70e605f4287ea5249f67bc69339eccf",
+      "published_sha256": "91120bd2914d4a397f9f28c553118c76161639e3646557bc58b0d72061407129",
+      "source": "original-executed-copy:train_v1_ctrate (1).ipynb",
+      "retained_output_cells": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "source_code_unchanged": true
+    },
+    {
+      "file": "notebooks/label_creation/07_create_paired_report_labels_for_frozen_baselines.ipynb",
+      "original_sha256": "1911eed1847c1362f2f1e4d695f16cd1d2f4cb039780635b8dc622700d692dea",
+      "published_sha256": "956d4d1fab70a53e51b624bc089da1af5a1cc30b31b6a31df060e8e9dd6a5705",
+      "source": "original-repo:notebooks/medgemma_label_colab.ipynb",
+      "retained_output_cells": [],
+      "source_code_unchanged": true
+    },
+    {
+      "file": "notebooks/label_creation/08_create_source_aware_paired_report_labels.ipynb",
+      "original_sha256": "e6f9f05490b18e40ee32f919328fec4807590b7dff9439ec7fd0447be0ecf135",
+      "published_sha256": "c2a016531944eb7e92568eb5b1f1634bcfa1a25d2c6be4ce92183b4c3f351c75",
+      "source": "git:2e683da873d766216c8eefbc0f903a953383fc7f:notebooks/label_per_finding_temporal_colab.ipynb",
+      "retained_output_cells": [],
+      "source_code_unchanged": true
+    },
+    {
+      "file": "notebooks/results/01_frozen_ctclip_ce_bce_crossmodal_supcon_sweep_executed.ipynb",
+      "original_sha256": "7c63026239e3384b943b5e355c20c878aa139bc9024413c66fd3794bfe07a053",
+      "published_sha256": "b3253b114a24086698c38740d3e0b80d3fd537e0ad8b1555bdd0250fea50a68f",
+      "source": "original-executed-copy:fixed_supcon.ipynb",
+      "retained_output_cells": [
+        31
+      ],
+      "source_code_unchanged": true
+    },
+    {
+      "file": "notebooks/results/02_frozen_ctclip_heldout_wording_loss_sweep_executed.ipynb",
+      "original_sha256": "17e4266ca669bff135444fb738a493203104b5d8f6332086efbf8f25ceb844ba",
+      "published_sha256": "6af3e97a197acc5b46e03d1a99f5f19d5cacb98823acc55c10e7eac843fec4f3",
+      "source": "original-executed-copy:diff_sentences_ce_eval.ipynb",
+      "retained_output_cells": [
+        12
+      ],
+      "source_code_unchanged": true
+    },
+    {
+      "file": "notebooks/results/03_ctclip_lastblock_ce_bce_cosine_VQ_ISSUE_executed.ipynb",
+      "original_sha256": "aa32f9f9463310c79fb0276e76face45ddc2d709c0109d16a260382eb67d1ea0",
+      "published_sha256": "9693f4e95d08182b8a1ac1d92b1426edee686f6f36218560c883c0f446f85ca8",
+      "source": "original-executed-copy:train_ctclip_lastblock_temporal_colab.ipynb",
+      "retained_output_cells": [
+        32
+      ],
+      "source_code_unchanged": true
+    },
+    {
+      "file": "notebooks/support/04_extract_frozen_ctclip_features_all_splits.ipynb",
+      "original_sha256": "ab10fb720dfb5dbb55346b97a0d034032061fb10f916bd19775f734c7db04ff4",
+      "published_sha256": "6e37956353fa7bc9c129d030bfc40eb4330605fcf94acc9320648fc7a84cea3c",
+      "source": "original-repo:notebooks/ctrate_download_colab.ipynb",
+      "retained_output_cells": [],
+      "source_code_unchanged": true
+    },
+    {
+      "file": "notebooks/support/05_medgemma_current_report_only_labeling.ipynb",
+      "original_sha256": "1116a0235829a57fe96ad70c6791e4b9674282c4b1fe9f1a672792f263d6eb98",
+      "published_sha256": "070fb266c076e24d3189ea7560d3f17ceda14852192cee4a703b7222b04137e6",
+      "source": "original-repo:notebooks/label_per_finding_temporal_colab.ipynb",
+      "retained_output_cells": [],
+      "source_code_unchanged": true
+    }
+  ]
+}
