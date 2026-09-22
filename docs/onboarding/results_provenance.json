@@ -1,0 +1,146 @@
+{
+  "results": [
+    {
+      "title": "Early MERLIN baseline",
+      "context": "252 test finding examples",
+      "notebook": "train_v1_ctrate (1).ipynb",
+      "cells": [
+        7,
+        9
+      ],
+      "rows": [
+        [
+          "Zero-shot difference",
+          0.352
+        ],
+        [
+          "Learned adapter + CE",
+          0.398
+        ]
+      ],
+      "evidence": [
+        "macro-F1        : 0.398",
+        "macro-F1   : 0.352"
+      ],
+      "note": "Incomplete feature coverage; historical subset."
+    },
+    {
+      "title": "CT-CLIP cross-modal sweep",
+      "context": "1,288 test finding examples",
+      "notebook": "fixed_supcon.ipynb",
+      "cells": [
+        31
+      ],
+      "rows": [
+        [
+          "CE",
+          0.561857
+        ],
+        [
+          "CE + change BCE",
+          0.575441
+        ],
+        [
+          "SupCon only",
+          0.473174
+        ],
+        [
+          "CE + BCE + SupCon",
+          0.473275
+        ]
+      ],
+      "evidence": [
+        "0.561857",
+        "0.575441",
+        "0.473174",
+        "0.473275"
+      ],
+      "note": "Real-report-derived prototypes; 5,055 train examples."
+    },
+    {
+      "title": "Held-out sentence evaluation",
+      "context": "1,288 test finding examples",
+      "notebook": "diff_sentences_ce_eval.ipynb",
+      "cells": [
+        12
+      ],
+      "rows": [
+        [
+          "CE",
+          0.538385
+        ],
+        [
+          "CE + SupCon",
+          0.518454
+        ],
+        [
+          "CE + change BCE",
+          0.514537
+        ],
+        [
+          "CE + BCE + SupCon",
+          0.482597
+        ]
+      ],
+      "evidence": [
+        "0.538385",
+        "0.518454",
+        "0.514537",
+        "0.482597"
+      ],
+      "note": "Different eval prompts; scores average 3 resamplings."
+    }
+  ],
+  "current_run": {
+    "notebook": "train_ctclip_lastblock_temporal_colab.ipynb",
+    "cells": [
+      32
+    ],
+    "tune_macro_f1": 0.5780196078513702,
+    "test_macro_f1": 0.5254796807386137,
+    "best_epoch": 3,
+    "test_findings": 795,
+    "status": "Completed run; NOT validated as visual fine-tuning: eval VQ blocks upstream gradients."
+  },
+  "verified_notebook_sources": [
+    {
+      "notebook": "06_merlin_temporal_adapter_and_zeroshot_executed.ipynb",
+      "original_notebook": "train_v1_ctrate (1).ipynb",
+      "source_kind": "published handoff snapshot",
+      "zero_based_cells": [
+        7,
+        9
+      ],
+      "sha256": "91120bd2914d4a397f9f28c553118c76161639e3646557bc58b0d72061407129"
+    },
+    {
+      "notebook": "01_frozen_ctclip_ce_bce_crossmodal_supcon_sweep_executed.ipynb",
+      "original_notebook": "fixed_supcon.ipynb",
+      "source_kind": "published handoff snapshot",
+      "zero_based_cells": [
+        31
+      ],
+      "sha256": "b3253b114a24086698c38740d3e0b80d3fd537e0ad8b1555bdd0250fea50a68f"
+    },
+    {
+      "notebook": "02_frozen_ctclip_heldout_wording_loss_sweep_executed.ipynb",
+      "original_notebook": "diff_sentences_ce_eval.ipynb",
+      "source_kind": "published handoff snapshot",
+      "zero_based_cells": [
+        12
+      ],
+      "sha256": "6af3e97a197acc5b46e03d1a99f5f19d5cacb98823acc55c10e7eac843fec4f3"
+    },
+    {
+      "notebook": "03_ctclip_lastblock_ce_bce_cosine_VQ_ISSUE_executed.ipynb",
+      "original_notebook": "train_ctclip_lastblock_temporal_colab.ipynb",
+      "source_kind": "published handoff snapshot",
+      "zero_based_cells": [
+        32
+      ],
+      "sha256": "9693f4e95d08182b8a1ac1d92b1426edee686f6f36218560c883c0f446f85ca8"
+    }
+  ],
+  "caveat": "Saved outputs only; no rerun. Cross-panel cohorts differ. See README for interpretation.",
+  "gradient_check": "Pinned vector-quantize-pytorch 1.1.2 eval path: reproduced upstream grad=None; no direct checkpoint-delta inspection."
+}

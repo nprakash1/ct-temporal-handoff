@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1152pt" height="648pt" viewBox="0 0 1152 648" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.4, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 648
+L 1152 648
+L 1152 0
+L 0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 46.8 115.2
+L 1105.2 115.2
+" clip-path="url(#p7f67505ef3)" style="fill: none; stroke: #cfd8e2; stroke-linecap: square"/>
+   </g>
+   <g id="patch_2">
+    <path d="M 68.04 230.76
+L 126.36 230.76
+Q 135 230.76 135 222.12
+L 135 172.44
+Q 135 163.8 126.36 163.8
+L 68.04 163.8
+Q 59.4 163.8 59.4 172.44
+L 59.4 222.12
+Q 59.4 230.76 68.04 230.76
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #e8f2fc; stroke: #2469a0; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 68.04 314.28
+L 126.36 314.28
+Q 135 314.28 135 305.64
+L 135 255.96
+Q 135 247.32 126.36 247.32
+L 68.04 247.32
+Q 59.4 247.32 59.4 255.96
+L 59.4 305.64
+Q 59.4 314.28 68.04 314.28
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #e8f2fc; stroke: #2469a0; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 68.04 397.8
+L 126.36 397.8
+Q 135 397.8 135 389.16
+L 135 339.48
+Q 135 330.84 126.36 330.84
+L 68.04 330.84
+Q 59.4 330.84 59.4 339.48
+L 59.4 389.16
+Q 59.4 397.8 68.04 397.8
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #e8f2fc; stroke: #2469a0; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 68.04 481.32
+L 126.36 481.32
+Q 135 481.32 135 472.68
+L 135 423
+Q 135 414.36 126.36 414.36
+L 68.04 414.36
+Q 59.4 414.36 59.4 423
+L 59.4 472.68
+Q 59.4 481.32 68.04 481.32
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #e8f2fc; stroke: #2469a0; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 68.04 574.2
+L 547.56 574.2
+Q 556.2 574.2 556.2 565.56
+L 556.2 514.44
+Q 556.2 505.8 547.56 505.8
+L 68.04 505.8
+Q 59.4 505.8 59.4 514.44
+L 59.4 565.56
+Q 59.4 574.2 68.04 574.2
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #f2f5f8; stroke-dasharray: 5.55,2.4; stroke-dashoffset: 0; stroke: #cfd8e2; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 582.84 574.2
+L 1083.96 574.2
+Q 1092.6 574.2 1092.6 565.56
+L 1092.6 514.44
+Q 1092.6 505.8 1083.96 505.8
+L 582.84 505.8
+Q 574.2 505.8 574.2 514.44
+L 574.2 565.56
+Q 574.2 574.2 582.84 574.2
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #f2f5f8; stroke-dasharray: 5.55,2.4; stroke-dashoffset: 0; stroke: #cfd8e2; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #172b43; font: 700 27px 'DejaVu Sans'; text-anchor: start" x="46.8" y="54.144844" transform="rotate(-0 46.8 54.144844)">Next: a controlled CT progression study</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #516276; font: 15px 'DejaVu Sans'; text-anchor: start" x="46.8" y="90.539062" transform="rotate(-0 46.8 90.539062)">Change one factor at a time. Match examples, prototypes, seeds, sampling, and evaluation.</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #516276; font: 10px 'DejaVu Sans'; text-anchor: start" x="46.8" y="630.482188" transform="rotate(-0 46.8 630.482188)">3dCT  |  Finding-specific longitudinal progression</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #516276; font: 11px 'DejaVu Sans'; text-anchor: end" x="1105.2" y="630.875312" transform="rotate(-0 1105.2 630.875312)">05</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #172b43; font: 22px 'DejaVu Sans'; text-anchor: middle" x="97.2" y="203.350625" transform="rotate(-0 97.2 203.350625)">01</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #172b43; font: 700 19px 'DejaVu Sans'; text-anchor: start" x="151.2" y="185.242813" transform="rotate(-0 151.2 185.242813)">Validate the benchmark</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #516276; font: 15px 'DejaVu Sans'; text-anchor: start" x="151.2" y="217.259063" transform="rotate(-0 151.2 217.259063)">Check labels + exact prior-study correspondence; review an image-based gold subset.</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #172b43; font: 22px 'DejaVu Sans'; text-anchor: middle" x="97.2" y="286.870625" transform="rotate(-0 97.2 286.870625)">02</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #172b43; font: 700 19px 'DejaVu Sans'; text-anchor: start" x="151.2" y="268.762812" transform="rotate(-0 151.2 268.762812)">Prove both scans matter</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #516276; font: 15px 'DejaVu Sans'; text-anchor: start" x="151.2" y="300.779063" transform="rotate(-0 151.2 300.779063)">Compare finding-only, current-only, prior-only, subtraction, and a paired adapter.</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #172b43; font: 22px 'DejaVu Sans'; text-anchor: middle" x="97.2" y="370.390625" transform="rotate(-0 97.2 370.390625)">03</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #172b43; font: 700 19px 'DejaVu Sans'; text-anchor: start" x="151.2" y="352.208594" transform="rotate(-0 151.2 352.208594)">Isolate the training signal</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #516276; font: 15px 'DejaVu Sans'; text-anchor: start" x="151.2" y="384.299062" transform="rotate(-0 151.2 384.299062)">Matched CE / change BCE / cosine / SupCon runs; choose settings on tune data.</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #172b43; font: 22px 'DejaVu Sans'; text-anchor: middle" x="97.2" y="453.910625" transform="rotate(-0 97.2 453.910625)">04</text>
+   </g>
+   <g id="text_15">
+    <text style="fill: #172b43; font: 700 19px 'DejaVu Sans'; text-anchor: start" x="151.2" y="435.728594" transform="rotate(-0 151.2 435.728594)">Verify image fine-tuning</text>
+   </g>
+   <g id="text_16">
+    <text style="fill: #516276; font: 15px 'DejaVu Sans'; text-anchor: start" x="151.2" y="467.819062" transform="rotate(-0 151.2 467.819062)">Repair VQ gradient path; confirm nonzero gradients and actual visual-weight updates.</text>
+   </g>
+   <g id="text_17">
+    <text style="fill: #172b43; font: 15px 'DejaVu Sans'" transform="translate(173.8125 534.885879)">Later: EXACT backbone comparison</text>
+    <text style="fill: #172b43; font: 15px 'DejaVu Sans'" transform="translate(104.90625 553.392246)">Account for preprocessing and text-space differences.</text>
+   </g>
+   <g id="text_18">
+    <text style="fill: #172b43; font: 15px 'DejaVu Sans'" transform="translate(648.568359 534.885879)">Later: spatial grounding + acquisition robustness</text>
+    <text style="fill: #172b43; font: 15px 'DejaVu Sans'" transform="translate(638.337891 553.392246)">Audit scanner/kernel effects before adding BiasCon.</text>
+   </g>
+   <g id="text_19">
+    <text style="fill: #516276; font: 12px 'DejaVu Sans'; text-anchor: start" x="61.2" y="605.95125" transform="rotate(-0 61.2 605.95125)">Final evidence: patient-level uncertainty, per-finding results, and preferably an additional untouched evaluation set.</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p7f67505ef3">
+   <rect x="0" y="0" width="1152" height="648"/>
+  </clipPath>
+ </defs>
+</svg>

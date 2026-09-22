@@ -2,6 +2,10 @@
 
 ## Start here
 
+**Presentation:** [Onboarding slides and speaker notes](docs/onboarding/README.md)
+· [Seven-page PDF](docs/onboarding/onboarding_visuals.pdf)
+· [Slide preview](docs/onboarding/contact_sheet.png)
+
 **Start with notebook 01.** It contains the main frozen CT-CLIP experiment and saved
 results. Read 02 for held-out wording evaluation. Read 03 for the latest intended
 partial-unfreezing experiment, which has an unresolved visual-gradient issue.

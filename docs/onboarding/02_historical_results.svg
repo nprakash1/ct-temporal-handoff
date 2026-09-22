@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1152pt" height="648pt" viewBox="0 0 1152 648" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.4, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 648
+L 1152 648
+L 1152 0
+L 0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 46.8 115.2
+L 1105.2 115.2
+" clip-path="url(#p7f67505ef3)" style="fill: none; stroke: #cfd8e2; stroke-linecap: square"/>
+   </g>
+   <g id="patch_2">
+    <path d="M 57.24 505.8
+L 374.76 505.8
+Q 383.4 505.8 383.4 497.16
+L 383.4 150.84
+Q 383.4 142.2 374.76 142.2
+L 57.24 142.2
+Q 48.6 142.2 48.6 150.84
+L 48.6 497.16
+Q 48.6 505.8 57.24 505.8
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #f2f5f8; stroke: #cfd8e2; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 417.24 505.8
+L 734.76 505.8
+Q 743.4 505.8 743.4 497.16
+L 743.4 150.84
+Q 743.4 142.2 734.76 142.2
+L 417.24 142.2
+Q 408.6 142.2 408.6 150.84
+L 408.6 497.16
+Q 408.6 505.8 417.24 505.8
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #f2f5f8; stroke: #cfd8e2; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 777.24 505.8
+L 1094.76 505.8
+Q 1103.4 505.8 1103.4 497.16
+L 1103.4 150.84
+Q 1103.4 142.2 1094.76 142.2
+L 777.24 142.2
+Q 768.6 142.2 768.6 150.84
+L 768.6 497.16
+Q 768.6 505.8 777.24 505.8
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #f2f5f8; stroke: #cfd8e2; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 57.24 568.44
+L 1094.76 568.44
+Q 1103.4 568.44 1103.4 559.8
+L 1103.4 528.84
+Q 1103.4 520.2 1094.76 520.2
+L 57.24 520.2
+Q 48.6 520.2 48.6 528.84
+L 48.6 559.8
+Q 48.6 568.44 57.24 568.44
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #eaf6ef; stroke: #287a57; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 64.8 272.16
+L 320.4 272.16
+L 320.4 256.32
+L 64.8 256.32
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #cfd8e2"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 64.8 335.52
+L 320.4 335.52
+L 320.4 319.68
+L 64.8 319.68
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #cfd8e2"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 424.8 272.16
+L 680.4 272.16
+L 680.4 256.32
+L 424.8 256.32
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #cfd8e2"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 424.8 335.52
+L 680.4 335.52
+L 680.4 319.68
+L 424.8 319.68
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #cfd8e2"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 424.8 398.88
+L 680.4 398.88
+L 680.4 383.04
+L 424.8 383.04
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #cfd8e2"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 424.8 462.24
+L 680.4 462.24
+L 680.4 446.4
+L 424.8 446.4
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #cfd8e2"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 784.8 272.16
+L 1040.4 272.16
+L 1040.4 256.32
+L 784.8 256.32
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #cfd8e2"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 784.8 335.52
+L 1040.4 335.52
+L 1040.4 319.68
+L 784.8 319.68
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #cfd8e2"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 784.8 398.88
+L 1040.4 398.88
+L 1040.4 383.04
+L 784.8 383.04
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #cfd8e2"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 784.8 462.24
+L 1040.4 462.24
+L 1040.4 446.4
+L 784.8 446.4
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #cfd8e2"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 64.8 272.16
+L 154.7712 272.16
+L 154.7712 256.32
+L 64.8 256.32
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #287a57"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 64.8 335.52
+L 166.5288 335.52
+L 166.5288 319.68
+L 64.8 319.68
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #287a57"/>
+   </g>
+   <g id="patch_18">
+    <path d="M 424.8 272.16
+L 568.410649 272.16
+L 568.410649 256.32
+L 424.8 256.32
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #287a57"/>
+   </g>
+   <g id="patch_19">
+    <path d="M 424.8 335.52
+L 571.88272 335.52
+L 571.88272 319.68
+L 424.8 319.68
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #287a57"/>
+   </g>
+   <g id="patch_20">
+    <path d="M 424.8 398.88
+L 545.743274 398.88
+L 545.743274 383.04
+L 424.8 383.04
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #b85b13"/>
+   </g>
+   <g id="patch_21">
+    <path d="M 424.8 462.24
+L 545.76909 462.24
+L 545.76909 446.4
+L 424.8 446.4
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #b85b13"/>
+   </g>
+   <g id="patch_22">
+    <path d="M 784.8 272.16
+L 922.411206 272.16
+L 922.411206 256.32
+L 784.8 256.32
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #287a57"/>
+   </g>
+   <g id="patch_23">
+    <path d="M 784.8 335.52
+L 917.316842 335.52
+L 917.316842 319.68
+L 784.8 319.68
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #b85b13"/>
+   </g>
+   <g id="patch_24">
+    <path d="M 784.8 398.88
+L 916.315657 398.88
+L 916.315657 383.04
+L 784.8 383.04
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #287a57"/>
+   </g>
+   <g id="patch_25">
+    <path d="M 784.8 462.24
+L 908.151793 462.24
+L 908.151793 446.4
+L 784.8 446.4
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #b85b13"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #172b43; font: 700 27px 'DejaVu Sans'; text-anchor: start" x="46.8" y="54.250313" transform="rotate(-0 46.8 54.250313)">What the saved experiments show</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #516276; font: 15px 'DejaVu Sans'; text-anchor: start" x="46.8" y="90.539062" transform="rotate(-0 46.8 90.539062)">Test macro-F1: descriptive results within each panel, not a cross-benchmark leaderboard.</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #516276; font: 10px 'DejaVu Sans'; text-anchor: start" x="46.8" y="630.482188" transform="rotate(-0 46.8 630.482188)">3dCT  |  Finding-specific longitudinal progression</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #516276; font: 11px 'DejaVu Sans'; text-anchor: end" x="1105.2" y="630.875312" transform="rotate(-0 1105.2 630.875312)">02</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #172b43; font: 700 17px 'DejaVu Sans'; text-anchor: start" x="64.8" y="173.824531" transform="rotate(-0 64.8 173.824531)">Early MERLIN baseline</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #516276; font: 12px 'DejaVu Sans'; text-anchor: start" x="64.8" y="204.91125" transform="rotate(-0 64.8 204.91125)">252 test finding examples</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #172b43; font: 14px 'DejaVu Sans'; text-anchor: start" x="64.8" y="245.063125" transform="rotate(-0 64.8 245.063125)">Zero-shot difference</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #172b43; font: 700 14px 'DejaVu Sans'; text-anchor: end" x="365.76" y="268.103125" transform="rotate(-0 365.76 268.103125)">0.352</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #172b43; font: 14px 'DejaVu Sans'; text-anchor: start" x="64.8" y="308.423125" transform="rotate(-0 64.8 308.423125)">Learned adapter + CE</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #172b43; font: 700 14px 'DejaVu Sans'; text-anchor: end" x="365.76" y="331.463125" transform="rotate(-0 365.76 331.463125)">0.398</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #516276; font: 11px 'DejaVu Sans'; text-anchor: start" x="64.8" y="486.875313" transform="rotate(-0 64.8 486.875313)">Bar length: macro-F1 from 0 to 1</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #172b43; font: 700 17px 'DejaVu Sans'; text-anchor: start" x="424.8" y="173.890938" transform="rotate(-0 424.8 173.890938)">CT-CLIP cross-modal sweep</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #516276; font: 12px 'DejaVu Sans'; text-anchor: start" x="424.8" y="204.91125" transform="rotate(-0 424.8 204.91125)">1,288 test finding examples</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #172b43; font: 14px 'DejaVu Sans'; text-anchor: start" x="424.8" y="245.063125" transform="rotate(-0 424.8 245.063125)">CE</text>
+   </g>
+   <g id="text_15">
+    <text style="fill: #172b43; font: 700 14px 'DejaVu Sans'; text-anchor: end" x="725.76" y="268.103125" transform="rotate(-0 725.76 268.103125)">0.562</text>
+   </g>
+   <g id="text_16">
+    <text style="fill: #172b43; font: 14px 'DejaVu Sans'; text-anchor: start" x="424.8" y="308.423125" transform="rotate(-0 424.8 308.423125)">CE + change BCE</text>
+   </g>
+   <g id="text_17">
+    <text style="fill: #172b43; font: 700 14px 'DejaVu Sans'; text-anchor: end" x="725.76" y="331.463125" transform="rotate(-0 725.76 331.463125)">0.575</text>
+   </g>
+   <g id="text_18">
+    <text style="fill: #172b43; font: 14px 'DejaVu Sans'; text-anchor: start" x="424.8" y="371.783125" transform="rotate(-0 424.8 371.783125)">SupCon only</text>
+   </g>
+   <g id="text_19">
+    <text style="fill: #172b43; font: 700 14px 'DejaVu Sans'; text-anchor: end" x="725.76" y="394.823125" transform="rotate(-0 725.76 394.823125)">0.473</text>
+   </g>
+   <g id="text_20">
+    <text style="fill: #172b43; font: 14px 'DejaVu Sans'; text-anchor: start" x="424.8" y="435.143125" transform="rotate(-0 424.8 435.143125)">CE + BCE + SupCon</text>
+   </g>
+   <g id="text_21">
+    <text style="fill: #172b43; font: 700 14px 'DejaVu Sans'; text-anchor: end" x="725.76" y="458.183125" transform="rotate(-0 725.76 458.183125)">0.473</text>
+   </g>
+   <g id="text_22">
+    <text style="fill: #516276; font: 11px 'DejaVu Sans'; text-anchor: start" x="424.8" y="486.875313" transform="rotate(-0 424.8 486.875313)">Bar length: macro-F1 from 0 to 1</text>
+   </g>
+   <g id="text_23">
+    <text style="fill: #172b43; font: 700 17px 'DejaVu Sans'; text-anchor: start" x="784.8" y="173.890938" transform="rotate(-0 784.8 173.890938)">Held-out sentence evaluation</text>
+   </g>
+   <g id="text_24">
+    <text style="fill: #516276; font: 12px 'DejaVu Sans'; text-anchor: start" x="784.8" y="204.91125" transform="rotate(-0 784.8 204.91125)">1,288 test finding examples</text>
+   </g>
+   <g id="text_25">
+    <text style="fill: #172b43; font: 14px 'DejaVu Sans'; text-anchor: start" x="784.8" y="245.063125" transform="rotate(-0 784.8 245.063125)">CE</text>
+   </g>
+   <g id="text_26">
+    <text style="fill: #172b43; font: 700 14px 'DejaVu Sans'; text-anchor: end" x="1085.76" y="268.103125" transform="rotate(-0 1085.76 268.103125)">0.538</text>
+   </g>
+   <g id="text_27">
+    <text style="fill: #172b43; font: 14px 'DejaVu Sans'; text-anchor: start" x="784.8" y="308.423125" transform="rotate(-0 784.8 308.423125)">CE + SupCon</text>
+   </g>
+   <g id="text_28">
+    <text style="fill: #172b43; font: 700 14px 'DejaVu Sans'; text-anchor: end" x="1085.76" y="331.463125" transform="rotate(-0 1085.76 331.463125)">0.518</text>
+   </g>
+   <g id="text_29">
+    <text style="fill: #172b43; font: 14px 'DejaVu Sans'; text-anchor: start" x="784.8" y="371.783125" transform="rotate(-0 784.8 371.783125)">CE + change BCE</text>
+   </g>
+   <g id="text_30">
+    <text style="fill: #172b43; font: 700 14px 'DejaVu Sans'; text-anchor: end" x="1085.76" y="394.823125" transform="rotate(-0 1085.76 394.823125)">0.515</text>
+   </g>
+   <g id="text_31">
+    <text style="fill: #172b43; font: 14px 'DejaVu Sans'; text-anchor: start" x="784.8" y="435.143125" transform="rotate(-0 784.8 435.143125)">CE + BCE + SupCon</text>
+   </g>
+   <g id="text_32">
+    <text style="fill: #172b43; font: 700 14px 'DejaVu Sans'; text-anchor: end" x="1085.76" y="458.183125" transform="rotate(-0 1085.76 458.183125)">0.483</text>
+   </g>
+   <g id="text_33">
+    <text style="fill: #516276; font: 11px 'DejaVu Sans'; text-anchor: start" x="784.8" y="486.875313" transform="rotate(-0 784.8 486.875313)">Bar length: macro-F1 from 0 to 1</text>
+   </g>
+   <g id="text_34">
+    <text style="fill: #172b43; font: 16px 'DejaVu Sans'; text-anchor: middle" x="576" y="548.735" transform="rotate(-0 576 548.735)">Takeaway: CE-based models are competitive; adding SupCon did not consistently improve these runs.</text>
+   </g>
+   <g id="text_35">
+    <text style="fill: #516276; font: 11px 'DejaVu Sans'; text-anchor: start" x="50.4" y="595.595312" transform="rotate(-0 50.4 595.595312)">Cohorts/labels differ across panels. SupCon sweeps also vary seeds and sampling; these do not isolate loss effects.</text>
+   </g>
+   <g id="text_36">
+    <text style="fill: #516276; font: 10px 'DejaVu Sans'; text-anchor: start" x="50.4" y="612.599375" transform="rotate(-0 50.4 612.599375)">Middle: report-derived prototypes, 5,055 train examples. Right: held-out wording, 3 resamplings (not 3 training seeds).</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p7f67505ef3">
+   <rect x="0" y="0" width="1152" height="648"/>
+  </clipPath>
+ </defs>
+</svg>

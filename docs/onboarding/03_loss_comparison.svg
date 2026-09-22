@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1152pt" height="648pt" viewBox="0 0 1152 648" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.4, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 648
+L 1152 648
+L 1152 0
+L 0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 46.8 115.2
+L 1105.2 115.2
+" clip-path="url(#p7f67505ef3)" style="fill: none; stroke: #cfd8e2; stroke-linecap: square"/>
+   </g>
+   <g id="patch_2">
+    <path d="M 71.64 279
+L 356.76 279
+Q 365.4 279 365.4 270.36
+L 365.4 226.44
+Q 365.4 217.8 356.76 217.8
+L 71.64 217.8
+Q 63 217.8 63 226.44
+L 63 270.36
+Q 63 279 71.64 279
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #e8f2fc; stroke: #2469a0; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 71.64 437.4
+L 356.76 437.4
+Q 365.4 437.4 365.4 428.76
+L 365.4 334.44
+Q 365.4 325.8 356.76 325.8
+L 71.64 325.8
+Q 63 325.8 63 334.44
+L 63 428.76
+Q 63 437.4 71.64 437.4
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #e8f2fc; stroke: #2469a0; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 431.64 279
+L 716.76 279
+Q 725.4 279 725.4 270.36
+L 725.4 226.44
+Q 725.4 217.8 716.76 217.8
+L 431.64 217.8
+Q 423 217.8 423 226.44
+L 423 270.36
+Q 423 279 431.64 279
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #fff0df; stroke: #b85b13; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 431.64 437.4
+L 716.76 437.4
+Q 725.4 437.4 725.4 428.76
+L 725.4 334.44
+Q 725.4 325.8 716.76 325.8
+L 431.64 325.8
+Q 423 325.8 423 334.44
+L 423 428.76
+Q 423 437.4 431.64 437.4
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #fff0df; stroke: #b85b13; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 791.64 279
+L 1076.76 279
+Q 1085.4 279 1085.4 270.36
+L 1085.4 226.44
+Q 1085.4 217.8 1076.76 217.8
+L 791.64 217.8
+Q 783 217.8 783 226.44
+L 783 270.36
+Q 783 279 791.64 279
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #eaf6ef; stroke: #287a57; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 791.64 437.4
+L 1076.76 437.4
+Q 1085.4 437.4 1085.4 428.76
+L 1085.4 334.44
+Q 1085.4 325.8 1076.76 325.8
+L 791.64 325.8
+Q 783 325.8 783 334.44
+L 783 428.76
+Q 783 437.4 791.64 437.4
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #eaf6ef; stroke: #287a57; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 64.44 574.2
+L 1087.56 574.2
+Q 1096.2 574.2 1096.2 565.56
+L 1096.2 528.84
+Q 1096.2 520.2 1087.56 520.2
+L 64.44 520.2
+Q 55.8 520.2 55.8 528.84
+L 55.8 565.56
+Q 55.8 574.2 64.44 574.2
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #f2f5f8; stroke: #cfd8e2; stroke-width: 1.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 213.84 286.399512
+Q 213.84 302.401573 213.84 316.391172
+" clip-path="url(#p7f67505ef3)" style="fill: none; stroke: #2469a0; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 217.24 309.591172
+L 213.84 316.391172
+L 210.44 309.591172
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #2469a0; stroke: #2469a0; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 573.84 286.399512
+Q 573.84 302.401573 573.84 316.391172
+" clip-path="url(#p7f67505ef3)" style="fill: none; stroke: #b85b13; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 577.24 309.591172
+L 573.84 316.391172
+L 570.44 309.591172
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #b85b13; stroke: #b85b13; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 933.84 286.399512
+Q 933.84 302.401573 933.84 316.391172
+" clip-path="url(#p7f67505ef3)" style="fill: none; stroke: #287a57; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 937.24 309.591172
+L 933.84 316.391172
+L 930.44 309.591172
+z
+" clip-path="url(#p7f67505ef3)" style="fill: #287a57; stroke: #287a57; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #172b43; font: 700 27px 'DejaVu Sans'; text-anchor: start" x="46.8" y="54.144844" transform="rotate(-0 46.8 54.144844)">Same task, different training signals</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #516276; font: 15px 'DejaVu Sans'; text-anchor: start" x="46.8" y="90.539062" transform="rotate(-0 46.8 90.539062)">Example anchor: the learned CT-pair change embedding for "pleural effusion worsened".</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #516276; font: 10px 'DejaVu Sans'; text-anchor: start" x="46.8" y="630.482188" transform="rotate(-0 46.8 630.482188)">3dCT  |  Finding-specific longitudinal progression</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #516276; font: 11px 'DejaVu Sans'; text-anchor: end" x="1105.2" y="630.875312" transform="rotate(-0 1105.2 630.875312)">03</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #172b43; font: 700 18px 'DejaVu Sans'; text-anchor: start" x="57.6" y="158.90625" transform="rotate(-0 57.6 158.90625)">Prototype cross-entropy</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #2469a0; font: 14px 'DejaVu Sans'; text-anchor: start" x="57.6" y="194.663125" transform="rotate(-0 57.6 194.663125)">Choose the correct direction</text>
+   </g>
+   <g id="text_7">
+    <text style="fill: #172b43; font: 16px 'DejaVu Sans'; text-anchor: middle" x="214.2" y="252.815" transform="rotate(-0 214.2 252.815)">CT-pair change embedding</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #172b43; font: 15px 'DejaVu Sans'" transform="translate(137.968359 367.232695)">Worsened prototype</text>
+    <text style="fill: #172b43; font: 15px 'DejaVu Sans'" transform="translate(151.509375 385.739062)">Stable prototype</text>
+    <text style="fill: #172b43; font: 15px 'DejaVu Sans'" transform="translate(139.66875 404.24543)">Improved prototype</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #516276; font: 14px 'DejaVu Sans'" transform="translate(64.8 474.02682)">Competes against 3 fixed text vectors</text>
+    <text style="fill: #516276; font: 14px 'DejaVu Sans'" transform="translate(64.8 491.29943)">for this finding.</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #172b43; font: 700 18px 'DejaVu Sans'; text-anchor: start" x="417.6" y="159.046875" transform="rotate(-0 417.6 159.046875)">Instance InfoNCE</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #b85b13; font: 14px 'DejaVu Sans'; text-anchor: start" x="417.6" y="194.663125" transform="rotate(-0 417.6 194.663125)">Retrieve my paired sentence</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #172b43; font: 16px 'DejaVu Sans'; text-anchor: middle" x="574.2" y="252.815" transform="rotate(-0 574.2 252.815)">CT-pair change embedding</text>
+   </g>
+   <g id="text_13">
+    <text style="fill: #172b43; font: 15px 'DejaVu Sans'" transform="translate(480.757031 376.485879)">+ Own report-text target</text>
+    <text style="fill: #172b43; font: 15px 'DejaVu Sans'" transform="translate(474.396094 394.992246)">− Other batch text targets</text>
+   </g>
+   <g id="text_14">
+    <text style="fill: #516276; font: 14px 'DejaVu Sans'" transform="translate(424.8 474.02682)">Another correct same-class sentence</text>
+    <text style="fill: #516276; font: 14px 'DejaVu Sans'" transform="translate(424.8 491.29943)">can become a false negative.</text>
+   </g>
+   <g id="text_15">
+    <text style="fill: #172b43; font: 700 18px 'DejaVu Sans'; text-anchor: start" x="777.6" y="159.046875" transform="rotate(-0 777.6 159.046875)">Masked cross-modal SupCon</text>
+   </g>
+   <g id="text_16">
+    <text style="fill: #287a57; font: 14px 'DejaVu Sans'; text-anchor: start" x="777.6" y="194.663125" transform="rotate(-0 777.6 194.663125)">Match the correct language group</text>
+   </g>
+   <g id="text_17">
+    <text style="fill: #172b43; font: 16px 'DejaVu Sans'; text-anchor: middle" x="934.2" y="252.815" transform="rotate(-0 934.2 252.815)">CT-pair change embedding</text>
+   </g>
+   <g id="text_18">
+    <text style="fill: #172b43; font: 15px 'DejaVu Sans'" transform="translate(809.310937 367.232695)">+ Same finding + same direction</text>
+    <text style="fill: #172b43; font: 15px 'DejaVu Sans'" transform="translate(809.753906 385.739062)">− Same finding + other direction</text>
+    <text style="fill: #172b43; font: 15px 'DejaVu Sans'" transform="translate(855.863672 404.24543)">Ignore other findings</text>
+   </g>
+   <g id="text_19">
+    <text style="fill: #516276; font: 14px 'DejaVu Sans'" transform="translate(784.8 474.02682)">Multiple positives; compare only</text>
+    <text style="fill: #516276; font: 14px 'DejaVu Sans'" transform="translate(784.8 491.29943)">within this finding.</text>
+   </g>
+   <g id="text_20">
+    <text style="fill: #172b43; font: 16px 'DejaVu Sans'; text-anchor: middle" x="576" y="551.615" transform="rotate(-0 576 551.615)">Last-block experiment: CE + change/stable BCE + paired cosine alignment (no SupCon).</text>
+   </g>
+   <g id="text_21">
+    <text style="fill: #516276; font: 11px 'DejaVu Sans'; text-anchor: start" x="61.2" y="607.835312" transform="rotate(-0 61.2 607.835312)">Cosine alignment pulls toward one target without a contrastive denominator. BCE predicts changed vs stable, not physical size.</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p7f67505ef3">
+   <rect x="0" y="0" width="1152" height="648"/>
+  </clipPath>
+ </defs>
+</svg>
