@@ -1,1 +1,2 @@
+Notebook 01 — Frozen CT-CLIP CE/BCE/cross-modal SupCon sweep weights
 
